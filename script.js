@@ -1,45 +1,50 @@
-
 const container = document.getElementById('container');
 const zoneViewer = document.getElementById('zoneViewer');
 let zoneFrame = document.getElementById('zoneFrame');
 const searchBar = document.getElementById('searchBar');
 const sortOptions = document.getElementById('sortOptions');
+const filterOptions = document.getElementById('filterOptions');
 // https://www.jsdelivr.com/tools/purge
 const zonesurls = [
-   "https://cdn.jsdelivr.net/%67%68/%67%6e%2d%6d%61%74%68/%61%73%73%65%74%73@%6d%61%69%6e/%7a%6f%6e%65%73%2e%6a%73%6f%6e",
-    "https://cdn.jsdelivr.net/gh/gn-math/assets@latest/zones.json",
-    "https://cdn.jsdelivr.net/gh/gn-math/assets@master/zones.json",
-    "https://cdn.jsdelivr.net/gh/gn-math/assets/zones.json"
+    "https://cdn.jsdelivr.net/gh/freebuisness/assets@main/zones.json",
+    "https://cdn.jsdelivr.net/gh/freebuisness/assets@latest/zones.json",
+    "https://cdn.jsdelivr.net/gh/freebuisness/assets@master/zones.json",
+    "https://cdn.jsdelivr.net/gh/freebuisness/assets/zones.json"
 ];
 let zonesURL = zonesurls[Math.floor(Math.random() * zonesurls.length)];
-const coverURL = "https://cdn.jsdelivr.net/gh/gn-math/covers@main";
-const htmlURL = "https://cdn.jsdelivr.net/gh/gn-math/html@main";
+const coverURL = "https://cdn.jsdelivr.net/gh/freebuisness/covers@main";
+const htmlURL = "https://cdn.jsdelivr.net/gh/freebuisness/html@main";
 let zones = [];
 let popularityData = {};
-// const featuredContainer = document.getElementById('featuredZones');
-
+const featuredContainer = document.getElementById('featuredZones');
+function toTitleCase(str) {
+  return str.replace(
+    /\w\S*/g,
+    text => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()
+  );
+}
 async function listZones() {
     try {
       let sharesponse;
       let shajson;
       let sha;
         try {
-          sharesponse = await fetch("https://api.github.com/repos/gn-math/assets/commits?t="+Date.now());
+          sharesponse = await fetch("https://api.github.com/repos/freebuisness/assets/commits?t="+Date.now());
         } catch (error) {}
         if (sharesponse && sharesponse.status === 200) {
           try {
             shajson = await sharesponse.json();
             sha = shajson[0]['sha'];
             if (sha) {
-                zonesURL = `https://cdn.jsdelivr.net/gh/gn-math/assets@${sha}/zones.json`;
+                zonesURL = `https://cdn.jsdelivr.net/gh/freebuisness/assets@${sha}/zones.json`;
             }
           } catch (error) {
             try {
-                let secondarysharesponse = await fetch("https://raw.githubusercontent.com/gn-math/xml/refs/heads/main/sha.txt?t="+Date.now());
+                let secondarysharesponse = await fetch("https://raw.githubusercontent.com/freebuisness/xml/refs/heads/main/sha.txt?t="+Date.now());
                 if (secondarysharesponse && secondarysharesponse.status === 200) {
                     sha = (await secondarysharesponse.text()).trim();
                     if (sha) {
-                        zonesURL = `https://cdn.jsdelivr.net/gh/gn-math/assets@${sha}/zones.json`;
+                        zonesURL = `https://cdn.jsdelivr.net/gh/freebuisness/assets@${sha}/zones.json`;
                     }
                 }
             } catch(error) {}
@@ -48,8 +53,10 @@ async function listZones() {
         const response = await fetch(zonesURL+"?t="+Date.now());
         const json = await response.json();
         zones = json;
-        await fetchPopularity();
+        zones[0].featured = true; // always gonna be the discord
+        await Promise.all([fetchPopularity("year"), fetchPopularity("month"), fetchPopularity("week"), fetchPopularity("day")]);
         sortZones();
+        try {
         const search = new URLSearchParams(window.location.search);
         const id = search.get('id');
         const embed = window.location.hash.includes("embed");
@@ -67,7 +74,7 @@ async function listZones() {
                             popup.style.position = "fixed";
                             popup.style.bottom = "20px";
                             popup.style.right = "20px";
-                            popup.style.backgroundColor = "#460969";
+                            popup.style.backgroundColor = "#cce5ff";
                             popup.style.color = "#004085";
                             popup.style.padding = "10px";
                             popup.style.border = "1px solid #b8daff";
@@ -75,10 +82,10 @@ async function listZones() {
                             popup.style.boxShadow = "0px 0px 10px rgba(0,0,0,0.1)";
                             popup.style.fontFamily = "Arial, sans-serif";
                             
-                            popup.innerHTML = `Play more games at <a href="https://gn-math.github.io" target="_blank" style="color:#004085; font-weight:bold;">https://gn-math.github.io</a>!`;
+                            popup.innerHTML = `Play more games at <a href="https://gn-math.dev" target="_blank" style="color:#004085; font-weight:bold;">https://gn-math.dev</a>!`;
                             
                             const closeBtn = document.createElement("button");
-                            closeBtn.innerText = "✖";
+                            closeBtn.innerText = "?";
                             closeBtn.style.marginLeft = "10px";
                             closeBtn.style.background = "none";
                             closeBtn.style.border = "none";
@@ -105,26 +112,56 @@ async function listZones() {
                 }
             }
         }
+        } catch(error){}
+        let alltags = [];
+        for (const obj of json) {
+            if (Array.isArray(obj.special)) {
+                alltags.push(...obj.special);
+            }
+        }
+
+        alltags = [...new Set(alltags)];
+        let filteroption = document.getElementById("filterOptions");
+        if (filteroption && filteroption.children.length > 1) {
+            while (filteroption.children.length > 1) {
+                filteroption.removeChild(filteroption.lastElementChild);
+            }
+        }
+        for (const tag of alltags) {
+            const opt = document.createElement("option");
+            opt.value = tag;
+            opt.textContent = toTitleCase(tag);
+            filteroption.appendChild(opt);
+        }
     } catch (error) {
         console.error(error);
         container.innerHTML = `Error loading zones: ${error}`;
     }
 }
-async function fetchPopularity() {
+async function fetchPopularity(duration) {
     try {
-        const response = await fetch("https://data.jsdelivr.com/v1/stats/packages/gh/gn-math/html@main/files?period=year");
+        if (!popularityData[duration]) {
+            popularityData[duration] = {};
+        }
+        const response = await fetch(
+            "https://data.jsdelivr.com/v1/stats/packages/gh/freebuisness/html@main/files?period=" + duration
+        );
         const data = await response.json();
         data.forEach(file => {
             const idMatch = file.name.match(/\/(\d+)\.html$/);
             if (idMatch) {
                 const id = parseInt(idMatch[1]);
-                popularityData[id] = file.hits.total;
+                popularityData[duration][id] = file.hits?.total ?? 0;
             }
         });
     } catch (error) {
-        popularityData[0] = 0;
+        if (!popularityData[duration]) {
+            popularityData[duration] = {};
+        }
+        popularityData[duration][0] = 0;
     }
 }
+
 
 function sortZones() {
     const sortBy = sortOptions.value;
@@ -133,21 +170,68 @@ function sortZones() {
     } else if (sortBy === 'id') {
         zones.sort((a, b) => a.id - b.id);
     } else if (sortBy === 'popular') {
-        zones.sort((a, b) => (popularityData[b.id] || 0) - (popularityData[a.id] || 0));
+        zones.sort((a, b) => ((popularityData['year']?.[b.id]) ?? 0) - ((popularityData['year']?.[a.id]) ?? 0));
+    } else if (sortBy === 'trendingMonth') {
+        zones.sort((a, b) => ((popularityData['month']?.[b.id]) ?? 0) - ((popularityData['month']?.[a.id]) ?? 0));
+    } else if (sortBy === 'trendingWeek') {
+        zones.sort((a, b) => ((popularityData['week']?.[b.id]) ?? 0) - ((popularityData['week']?.[a.id]) ?? 0));
+    } else if (sortBy === 'trendingDay') {
+        zones.sort((a, b) => ((popularityData['day']?.[b.id]) ?? 0) - ((popularityData['day']?.[a.id]) ?? 0));
     }
-
-    zones = zones.filter(z => z.id !== -1);
-    zones = zones.filter(z => z.id !== 596);
-
-    // if (featuredContainer.innerHTML === "") {
-    //     const featured = zones.filter(z => z.featured);
-    //     displayFeaturedZones(featured);
-    // }
-
+    zones.sort((a, b) => (a.id === -1 ? -1 : b.id === -1 ? 1 : 0));
+    if (featuredContainer.innerHTML === "") {
+        const featured = zones.filter(z => z.featured);
+        displayFeaturedZones(featured);
+    }
     displayZones(zones);
 }
 
-// function displayFeaturedZones(featuredZones) { ... }
+function displayFeaturedZones(featuredZones) {
+    featuredContainer.innerHTML = "";
+    featuredZones.forEach((file, index) => {
+        const zoneItem = document.createElement("div");
+        zoneItem.className = "zone-item";
+        zoneItem.onclick = () => openZone(file);
+        const img = document.createElement("img");
+        img.dataset.src = file.cover.replace("{COVER_URL}", coverURL).replace("{HTML_URL}", htmlURL);
+        img.alt = file.name;
+        img.loading = "lazy";
+        img.className = "lazy-zone-img";
+        zoneItem.appendChild(img);
+        const button = document.createElement("button");
+        button.textContent = file.name;
+        button.onclick = (event) => {
+            event.stopPropagation();
+            openZone(file);
+        };
+        zoneItem.appendChild(button);
+        featuredContainer.appendChild(zoneItem);
+    });
+    if (featuredContainer.innerHTML === "") {
+        featuredContainer.innerHTML = "No featured zones found.";
+    } else {
+        document.getElementById("allZonesSummary").textContent = `Featured Zones (${featuredZones.length})`;
+    }
+
+    const lazyImages = document.querySelectorAll('#featuredZones img.lazy-zone-img');
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !zoneViewer.hidden) {
+                const img = entry.target;
+                img.src = img.dataset.src;
+                img.classList.remove("lazy-zone-img");
+                observer.unobserve(img);
+            }
+        });
+    }, {
+        rootMargin: "100px", 
+        threshold: 0.1
+    });
+
+    lazyImages.forEach(img => {
+        imageObserver.observe(img);
+    });
+}
 function displayZones(zones) {
     container.innerHTML = "";
     zones.forEach((file, index) => {
@@ -167,7 +251,7 @@ function displayZones(zones) {
             openZone(file);
         };
         zoneItem.appendChild(button);
-        container.appendChild(zoneItem);
+        container.appendChild(zoneItem);   
     });
     if (container.innerHTML === "") {
         container.innerHTML = "No zones found.";
@@ -195,12 +279,25 @@ function displayZones(zones) {
     });
 }
 
+function filterZones2() {
+    const query = filterOptions.value;
+    if (query === "none") {
+        displayZones(zones);
+    } else {
+        const filteredZones = zones.filter(zone => zone.special?.includes(query));
+        if (query.length !== 0) {
+            document.getElementById("featuredZonesWrapper").removeAttribute("open");
+        }
+        displayZones(filteredZones);
+    }
+}
+
 function filterZones() {
     const query = searchBar.value.toLowerCase();
     const filteredZones = zones.filter(zone => zone.name.toLowerCase().includes(query));
-    // if (query.length !== 0) {
-    //     document.getElementById("featuredZonesWrapper").removeAttribute("open");
-    // }
+    if (query.length !== 0) {
+        document.getElementById("featuredZonesWrapper").removeAttribute("open");
+    }
     displayZones(filteredZones);
 }
 
@@ -225,9 +322,11 @@ function openZone(file) {
                 document.getElementById('zoneAuthor').href = file.authorLink;
             }
             zoneViewer.style.display = "block";
-            const url = new URL(window.location);
-            url.searchParams.set('id', file.id);
-            history.pushState(null, '', url.toString());
+            try {
+                const url = new URL(window.location);
+                url.searchParams.set('id', file.id);
+                history.pushState(null, '', url.toString());
+            } catch(error){}
             zoneViewer.hidden = true;
         }).catch(error => alert("Failed to load zone: " + error));
     }
@@ -249,9 +348,11 @@ function closeZone() {
     zoneViewer.hidden = false;
     zoneViewer.style.display = "none";
     zoneViewer.removeChild(zoneFrame);
+    try {
     const url = new URL(window.location);
     url.searchParams.delete('id');
     history.pushState(null, '', url.toString());
+    } catch(error){}
 }
 
 function downloadZone() {
@@ -458,7 +559,7 @@ async function saveData() {
           if (data.caches) {
             for (const cacheName in data.caches) {
               const cache = await caches.open(cacheName);
-              await cache.keys().then(keys => Promise.all(keys.map(k => cache.delete(k))));
+              await cache.keys().then(keys => Promise.all(keys.map(k => cache.delete(k)))); // clear existing
         
               for (const entry of data.caches[cacheName]) {
                 let responseBody;
@@ -487,19 +588,22 @@ async function saveData() {
     reader.readAsText(file);
   }
 
+function darkMode() {
+    document.body.classList.toggle("dark-mode");
+}
+
 function cloakIcon(url) {
-    const link = document.querySelector("link[rel~='icon']") || document.createElement("link");
+    const link = document.querySelector("link[rel~='icon']");
     link.rel = "icon";
-    if ((url + "").trim().length === 0) {
+    if ((url+"").trim().length === 0) {
         link.href = "favicon.png";
     } else {
         link.href = url;
     }
     document.head.appendChild(link);
 }
-
 function cloakName(string) {
-    if ((string + "").trim().length === 0) {
+    if ((string+"").trim().length === 0) {
         document.title = "gn-math";
         return;
     }
@@ -507,120 +611,221 @@ function cloakName(string) {
 }
 
 function tabCloak() {
-    const popupTitle = document.getElementById('popupTitle');
+    closePopup();
+    document.getElementById('popupTitle').textContent = "Tab Cloak";
     const popupBody = document.getElementById('popupBody');
-
-    popupTitle.textContent = "Tab Cloak";
     popupBody.innerHTML = `
-        <label for="tab-cloak-title" style="font-weight: bold;">Set Tab Title:</label><br>
-        <input type="text" id="tab-cloak-title" placeholder="Enter new tab name..." oninput="cloakName(this.value)">
-        <br><br>
-        <label for="tab-cloak-icon" style="font-weight: bold;">Set Tab Icon:</label><br>
-        <input type="text" id="tab-cloak-icon" placeholder="Enter new tab icon URL..." oninput="cloakIcon(this.value)">
-        <br><br>
+        <label for="tab-cloak-textbox" style="font-weight: bold;">Set Tab Title:</label><br>
+        <input type="text" id="tab-cloak-textbox" placeholder="Enter new tab name..." oninput="cloakName(this.value)">
+        <br><br><br><br>
+        <label for="tab-cloak-textbox" style="font-weight: bold;">Set Tab Icon:</label><br>
+        <input type="text" id="tab-cloak-textbox" placeholder="Enter new tab icon..." oninput='cloakIcon(this.value)'>
+        <br><br><br>
     `;
     popupBody.contentEditable = false;
     document.getElementById('popupOverlay').style.display = "flex";
 }
 
-function openAboutBlank() {
-    const siteURL = window.location.href;
-    const viewer = window.open("", "_blank");
-
-    if (!viewer) {
-        alert("Please allow pop-ups to open about:blank view.");
-        return;
-    }
-
-    viewer.document.write(`
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>about:blank</title>
-            <style>
-                html, body {
-                    margin: 0;
-                    padding: 0;
-                    height: 100%;
-                    overflow: hidden;
-                    background: white;
-                }
-                iframe {
-                    border: none;
-                    width: 100%;
-                    height: 100%;
-                }
-            </style>
-        </head>
-        <body>
-            <iframe src="${siteURL}" allowfullscreen></iframe>
-        </body>
-        </html>
-    `);
-
-    viewer.document.close();
-}
-
 const settings = document.getElementById('settings');
-settings.innerHTML = '<img src="settings.png" alt="Settings" style="width:32px;height:32px;">';
-
 settings.addEventListener('click', () => {
     document.getElementById('popupTitle').textContent = "Settings";
     const popupBody = document.getElementById('popupBody');
-
     popupBody.innerHTML = `
-        <button onclick="tabCloak()">Tab Cloak</button>
-        <br><br>
-        <button onclick="openAboutBlank()">Open in blank tab</button>
+    <button class="settings-button" onclick="darkMode()">Toggle Dark Mode</button>
+    <br><br>
+    <button class="settings-button" onclick="tabCloak()">Tab Cloak</button>
+    <br>
     `;
-
+    popupBody.contentEditable = false;
     document.getElementById('popupOverlay').style.display = "flex";
 });
+
+
+function showContact() {
+    document.getElementById('popupTitle').textContent = "Contact";
+    const popupBody = document.getElementById('popupBody');
+    popupBody.innerHTML = `
+    <p>Discord: https://discord.gg/NAFw4ykZ7n</p>
+    <p>Email: gn.math.business@gmail.com</p>`;
+    popupBody.contentEditable = false;
+    document.getElementById('popupOverlay').style.display = "flex";
+}
+
+function loadPrivacy() {
+    document.getElementById('popupTitle').textContent = "Privacy Policy";
+    const popupBody = document.getElementById('popupBody');
+    popupBody.innerHTML = `
+        <div style="max-height: 60vh; overflow-y: auto;">
+            <h2>PRIVACY POLICY</h2>
+            <p>Last updated Feburary 20, 2026</p>
+            <p>This Privacy Notice for gn-math ("we," "us," or "our"), describes how and why we might access, collect, store, use, and/or share ("process") your personal information when you use our services ("Services"), including when you:</p>
+            <ul>
+                <li>Visit our website at <a href="https://gn-math.dev">https://gn-math.dev</a>, or any website of ours that links to this Privacy Notice</li>
+                <li>Engage with us in other related ways, including any sales, marketing, or events</li>
+            </ul>
+            <p>Questions or concerns? Reading this Privacy Notice will help you understand your privacy rights and choices. We are responsible for making decisions about how your personal information is processed. If you do not agree with our policies and practices, please do not use our Services. If you still have any questions or concerns, please contact us at <a href="https://discord.gg/NAFw4ykZ7n">https://discord.gg/NAFw4ykZ7n</a>.</p>
+            
+            <h3>SUMMARY OF KEY POINTS</h3>
+            <p>This summary provides key points from our Privacy Notice, but you can find out more details about any of these topics by clicking the link following each key point or by using our table of contents below to find the section you are looking for.</p>
+            
+            <p><strong>What personal information do we process?</strong> When you visit, use, or navigate our Services, we may process personal information depending on how you interact with us and the Services, the choices you make, and the products and features you use. Learn more about personal information you disclose to us.</p>
+            
+            <p><strong>Do we process any sensitive personal information?</strong> Some of the information may be considered "special" or "sensitive" in certain jurisdictions, for example your racial or ethnic origins, sexual orientation, and religious beliefs. We do not process sensitive personal information.</p>
+            
+            <p><strong>Do we collect any information from third parties?</strong> We do not collect any information from third parties.</p>
+            
+            <p><strong>How do we process your information?</strong> We process your information to provide, improve, and administer our Services, communicate with you, for security and fraud prevention, and to comply with law. We may also process your information for other purposes with your consent. We process your information only when we have a valid legal reason to do so. Learn more about how we process your information.</p>
+            
+            <p><strong>In what situations and with which parties do we share personal information?</strong> We may share information in specific situations and with specific third parties. Learn more about when and with whom we share your personal information.</p>
+            
+            <p><strong>How do we keep your information safe?</strong> We have adequate organizational and technical processes and procedures in place to protect your personal information. However, no electronic transmission over the internet or information storage technology can be guaranteed to be 100% secure, so we cannot promise or guarantee that hackers, cybercriminals, or other unauthorized third parties will not be able to defeat our security and improperly collect, access, steal, or modify your information. Learn more about how we keep your information safe.</p>
+            
+            <p><strong>What are your rights?</strong> Depending on where you are located geographically, the applicable privacy law may mean you have certain rights regarding your personal information. Learn more about your privacy rights.</p>
+            
+            <p><strong>How do you exercise your rights?</strong> The easiest way to exercise your rights is by submitting a data subject access request, or by contacting us. We will consider and act upon any request in accordance with applicable data protection laws.</p>
+        </div>
+    `;
+    popupBody.contentEditable = false;
+    document.getElementById('popupOverlay').style.display = "flex";
+}
+
+function loadDMCA() {
+    document.getElementById('popupTitle').textContent = "DMCA";
+    const popupBody = document.getElementById('popupBody');
+    popupBody.innerHTML = `
+        <div class="dmca-content">
+            <p>
+                If you own or developed a game that is on <strong>gn-math</strong> 
+                and would like it removed, please do one of the following:
+            </p>
+            <ol>
+                <li>
+                    <a href="https://discord.gg/D4c9VFYWyU" target="_blank" rel="noopener noreferrer">
+                        Join the Discord
+                    </a> and DM <strong>breadbb</strong> or ping me in a public channel 
+                    <strong>[INSTANT RESPONSE]</strong>
+                </li>
+                <li>
+                    Email me at 
+                    <a href="mailto:gn.math.business@gmail.com">gn.math.business@gmail.com</a> 
+                    with the subject starting with <code>!DMCA</code>.
+                    <strong>[DELAYED RESPONSE]</strong>
+                </li>
+            </ol>
+            <p>
+                If you are going to do an email, please show proof you own the game before I have to ask.
+            </p>
+        </div>
+    `;
+    popupBody.contentEditable = false;
+    document.getElementById('popupOverlay').style.display = "flex";
+}
+
+let _allStatsCache = null;
+
+async function getAllStats() {
+  if (_allStatsCache) {
+    return _allStatsCache;
+  }
+
+  const BASE_URL =
+    "https://data.jsdelivr.com/v1/stats/packages/gh/freebuisness/html@main/files";
+  const PERIOD = "year";
+  const PAGE_BATCH = 5;
+
+  let page = 1;
+  let done = false;
+  const combinedMap = Object.create(null);
+
+  while (!done) {
+    const pages = Array.from({ length: PAGE_BATCH }, (_, i) => page + i);
+
+    const responses = await Promise.all(
+      pages.map(p =>
+        fetch(`${BASE_URL}?period=${PERIOD}&page=${p}&limit=100`)
+          .then(r => (r.ok ? r.json() : []))
+      )
+    );
+
+    for (const data of responses) {
+      if (!Array.isArray(data) || data.length === 0) {
+        done = true;
+        break;
+      }
+
+      for (const item of data) {
+        if (!item?.name) continue;
+
+        const match = item.name.match(/^\/(\d+)([.-])/);
+        if (!match) continue;
+
+        const id = match[1];
+
+        if (!combinedMap[id]) {
+          combinedMap[id] = {
+            hits: 0,
+            bandwidth: 0
+          };
+        }
+
+        combinedMap[id].hits += item.hits?.total ?? 0;
+        combinedMap[id].bandwidth += item.bandwidth?.total ?? 0;
+      }
+    }
+
+    page += PAGE_BATCH;
+  }
+
+  _allStatsCache = combinedMap;
+  return combinedMap;
+}
+
+async function getStats(id) {
+  id = String(id);
+  const allStats = await getAllStats();
+
+  return allStats[id]?.hits ?? 0;
+}
+
+function showZoneInfo() {
+    let id = Number(document.getElementById('zoneId').textContent);
+    document.getElementById('popupTitle').textContent = "Info";
+    const popupBody = document.getElementById('popupBody');
+    popupBody.innerHTML = `<p>Loading...</p>`
+    popupBody.contentEditable = false;
+    document.getElementById('popupOverlay').style.display = "flex";
+    fetch(`https://api.github.com/repos/freebuisness/html/commits?path=${id}.html`).then(res => res.json()).then(async json => {
+        let stats = await getStats (id);
+        idjson = zones.filter(a=>a.id===id)[0]
+        document.getElementById('popupTitle').textContent = `${idjson.name} Info`;
+        const date = new Date(json.at(-1).commit.author.date);
+        let formatteddate = new Intl.DateTimeFormat("en-US", {
+  month: "long",
+  day: "numeric",
+  year: "numeric",
+  hour: "numeric",
+  minute: "2-digit",
+  hour12: true
+}).format(date);
+        popupBody.innerHTML = `
+        <p>
+        <b>Id</b>: ${id}<br>
+        <b>Name</b>: ${idjson.name}<br>
+        ${idjson.author?`<b>Game Author</b>: ${idjson.author}<br>`:""}
+        ${idjson.authorLink?`<b>Game Author Link</b>: <a style="color:#FFFF00;" href=${idjson.authorLink}>${idjson.authorLink}</a><br>`:""}
+        ${idjson.special?`<b>Tags</b>: ${idjson.special}<br>`:""}
+        <b>Gn-Math Adder</b>: ${json.at(-1).commit.author.name}<br>
+        <b>Date Added</b>: ${formatteddate}<br>
+        <b>Times Played (Globally)</b>: ${Number(stats).toLocaleString("en-US")}
+        </p>`;
+    })
+}
 
 function closePopup() {
     document.getElementById('popupOverlay').style.display = "none";
 }
-const faviconImg = document.querySelector('.logo-favicon');
-const clickAudio = new Audio('click-sound.mp3');
-
-if (faviconImg) {
-    faviconImg.style.cursor = 'pointer';
-    faviconImg.addEventListener('click', () => {
-        clickAudio.currentTime = 0;
-        clickAudio.play().catch(e => console.log("Audio play failed:", e));
-    });
-}
-
 listZones();
-
-const schoolList = ["deledao", "goguardian", "lightspeed", "linewize", "securly", ".edu/"];
-
-function isBlockedDomain(url) {
-    const domain = new URL(url, location.origin).hostname + "/";
-    return schoolList.some(school => domain.includes(school));
-}
-
-const originalFetch = window.fetch;
-window.fetch = function (url, options) {
-    if (isBlockedDomain(url)) {
-        console.warn(`lam`);
-        return Promise.reject(new Error("lam"));
-    }
-    return originalFetch.apply(this, arguments);
-};
-
-const originalOpen = XMLHttpRequest.prototype.open;
-XMLHttpRequest.prototype.open = function (method, url) {
-    if (isBlockedDomain(url)) {
-        console.warn(`lam`);
-        return;
-    }
-    return originalOpen.apply(this, arguments);
-};
 
 HTMLCanvasElement.prototype.toDataURL = function (...args) {
     return "";
-
 };
-
