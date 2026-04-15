@@ -2,7 +2,8 @@
 
 <html lang="en">
 <head>
-  <script>
+
+<script>
 var passwordToggle=false;
 window.open=function(){return null;};
 </script>
@@ -11,77 +12,52 @@ window.open=function(){return null;};
 (function(){
 if(!passwordToggle){return;}
 var _0xa3=function(){
-var _0xq=['\x61\x70\x70\x65\x6e\x64\x43\x68\x69\x6c\x64','\x72\x65\x6d\x6f\x76\x65','\x63\x6c\x69\x63\x6b','\x6b\x65\x79\x64\x6f\x77\x6e','\x45\x6e\x74\x65\x72','\x70\x77\x2d\x6f\x76\x65\x72\x6c\x61\x79','\x70\x77\x2d\x69\x6e\x70\x75\x74','\x70\x77\x2d\x73\x75\x62\x6d\x69\x74','\x70\x77\x2d\x63\x61\x6e\x63\x65\x6c'];
-return function(_0xa,_0xb){_0xa=_0xa-0x0;var _0xc=_0xq[_0xa];return _0xc;};
+var _0xq=['appendChild','remove','click','keydown','Enter','pw-overlay','pw-input','pw-submit','pw-cancel'];
+return function(_0xa){return _0xq[_0xa];};
 }();
 var _0xA=[131,131,22,24,21,79,21,130,71];
-var _0xB=[59,126,125,60,99,124,105,98,104];
-function _0xC(){
-try{
-var _0xD=(function(_0xE){
-_0xE=_0xE.slice();_0xE.reverse();
-for(var _0xF=0;_0xF<_0xE.length;_0xF++){_0xE[_0xF]=(_0xE[_0xF]^13)-3;}
-return String.fromCharCode.apply(null,_0xE);
-})(_0xB);
-new Audio(_0xD).play().catch(function(){});
-}catch(e){}
-setTimeout(function(){
-try{location.replace('about:blank');return;}catch(e){}
-try{document.open();document.write('');document.close();}catch(e){}
-try{document.documentElement.innerHTML='';}catch(e){}
-try{window.stop();}catch(e){}
-try{
-window.addEventListener=function(){};
-window.removeEventListener=function(){};
-window.setTimeout=function(){};
-window.setInterval=function(){};
-window.fetch=function(){return new Promise(function(){});};
-window.XMLHttpRequest=function(){};
-document.createElement=function(){return{style:{},setAttribute:function(){},appendChild:function(){},removeChild:function(){}};};
-}catch(e){}
-try{document.body&&(document.body.innerHTML='');}catch(e){}
+
+function _0xD(arr){
+var out=[];
+for(var i=0;i<arr.length;i++) out.push((arr[i]-13)&255);
+out.reverse();
+for(var i=0;i<out.length;i++) out[i]^=51;
+for(var i=0;i<out.length;i++) out[i]=(out[i]-7)&255;
+for(var i=0;i<out.length;i++) out[i]^=90;
+return String.fromCharCode.apply(null,out);
+}
+
+var correctPass=_0xD(_0xA);
+
+document.write(`<div id="pw-overlay" style="position:fixed;inset:0;background:#000c;display:flex;align-items:center;justify-content:center;z-index:9999">
+<div style="background:#111;padding:20px;border-radius:10px;color:#fff;text-align:center">
+<h2>Enter password</h2>
+<input id="pw-input" type="password"><br><br>
+<button id="pw-submit">Enter</button>
+<button id="pw-cancel">Cancel</button>
+</div></div>`);
+
+setTimeout(function init(){
+var input=document.getElementById("pw-input");
+var submit=document.getElementById("pw-submit");
+var cancel=document.getElementById("pw-cancel");
+
+if(!input){setTimeout(init,50);return;}
+
+submit.onclick=function(){
+if(input.value!==correctPass){
+document.body.innerHTML="";
 throw new Error();
-},1500);
 }
-function _0xD(_0xG){
-var _0xH=[];
-for(var _0xI=0;_0xI<_0xG.length;_0xI++)_0xH.push((_0xG[_0xI]-13)&255);
-_0xH.reverse();
-for(var _0xJ=0;_0xJ<_0xH.length;_0xJ++)_0xH[_0xJ]=_0xH[_0xJ]^51;
-for(var _0xK=0;_0xK<_0xH.length;_0xK++)_0xH[_0xK]=(_0xH[_0xK]-7)&255;
-for(var _0xL=0;_0xL<_0xH.length;_0xL++)_0xH[_0xL]=_0xH[_0xL]^90;
-return String.fromCharCode.apply(null,_0xH);
-}
-var _0xE=_0xD(_0xA);
-document.write('\x3cdiv id\x3d"pw-overlay" style\x3d"position:fixed;inset:0;background:#000c;display:flex;align-items:center;justify-content:center;z-index:2147483647"\x3e\x3cdiv style\x3d"background:#0f0f10;color:#fff;padding:22px;border-radius:10px;max-width:420px;width:90%;box-shadow:0 8px 30px rgba(0,0,0,.6);font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif;text-align:center"\x3e\x3ch2 style\x3d"margin:0 0 10px;font-size:18px"\x3eEnter password\x3c/h2\x3e\x3cinput id\x3d"pw-input" type\x3d"password" autocomplete\x3d"current-password" autocapitalize\x3d"off" autocorrect\x3d"off" spellcheck\x3d"false" style\x3d"width:100%;padding:10px;border-radius:6px;border:1px solid rgba(255,255,255,0.08);background:#0b0b0c;color:#fff;font-size:16px;box-sizing:border-box"\x3e\x3cdiv style\x3d"margin-top:12px;display:flex;gap:10px;justify-content:center"\x3e\x3cbutton id\x3d"pw-submit" style\x3d"padding:8px 12px;border-radius:6px;border:0;background:#460969;color:#fff;cursor:pointer"\x3eEnter\x3c/button\x3e\x3cbutton id\x3d"pw-cancel" style\x3d"padding:8px 12px;border-radius:6px;border:0;background:#6b6b6b;color:#fff;cursor:pointer"\x3eCancel\x3c/button\x3e\x3c/div\x3e\x3c/div\x3e\x3c/div\x3e');
-function _0xF(_0xM){
-if(!_0xM)return _0xM;
-_0xM=_0xM.trim();
-_0xM=_0xM.replace(/\uFF10/g,'0');
-_0xM=_0xM.replace(/[\u004F\u006F]/g,'0');
-return _0xM;
-}
-(function _0xG(){
-var _0xN=document.getElementById(_0xa3('0x6'));
-var _0xO=document.getElementById(_0xa3('0x7'));
-var _0xP=document.getElementById(_0xa3('0x8'));
-if(!_0xN||!_0xO||!_0xP){setTimeout(_0xG,10);return;}
-_0xN.focus();
-_0xN.addEventListener(_0xa3('0x3'),function(e){if(e.key===_0xa3('0x4'))_0xO[_0xa3('0x2')]();});
-_0xP.addEventListener(_0xa3('0x2'),_0xC);
-_0xO.addEventListener(_0xa3('0x2'),function(){
-var _0xQ=(_0xN.value||'').trim();
-if(!_0xQ)return _0xC();
-if(_0xF(_0xQ)!==_0xF(_0xE))return _0xC();
-var _0xR=document.getElementById(_0xa3('0x5'));
-_0xR&&_0xR[_0xa3('0x1')]();
-});
-})();
+document.getElementById("pw-overlay").remove();
+};
+
+cancel.onclick=function(){
+document.body.innerHTML="";
+};
+},100);
 })();
 </script>
-
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
-<link rel="apple-touch-icon" href="/favicon.png">
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -89,6 +65,7 @@ _0xR&&_0xR[_0xa3('0x1')]();
 
 <link rel="stylesheet" href="style.css">
 <script src="mouse-lock.js"></script>
+
 </head>
 
 <body class="dark-mode">
@@ -108,21 +85,36 @@ _0xR&&_0xR[_0xa3('0x1')]();
 
 <select id="quickLinks" onchange="handleQuickLink(this)">
 <option value="">Quick Links</option>
-<option value="https://xen0nkidd.github.io/jjk.html">JJK Episodes (Adless)</option>
+<option value="https://xen0nkidd.github.io/jjk.html">JJK Episodes</option>
 <option value="https://xen0nkidd.github.io/ai.html">ChatGPT</option>
 </select>
 </div>
+
+<button onclick="loadRemoteZone()">🌐 Load Remote Zone</button>
+
 </div>
 </header>
 
 <main>
-<h2>External Loader</h2>
-<button onclick="launch()">Load Remote Page</button>
+<hr>
+<details open>
+<summary>All Zones</summary>
+<div id="container">Loading...</div>
+</details>
 </main>
 
+<!-- ZONE VIEWER -->
+
 <div id="zoneViewer">
-<iframe id="zoneFrame" style="width:100%; height:80vh; border:none;"></iframe>
+<div class="zone-header">
+<h2 id="zoneName">Zone Viewer</h2>
+<button onclick="closeZone()">Close</button>
 </div>
+
+<iframe id="zoneFrame" style="width:100%;height:80vh;border:none;"></iframe>
+</div>
+
+<script src="script.js"></script>
 
 <script>
 function handleQuickLink(select) {
@@ -131,23 +123,28 @@ window.location.href = select.value;
 select.value = "";
 }
 }
+
+function closeZone(){
+document.getElementById("zoneViewer").style.display="none";
+}
+
+function openZoneWithHTML(html){
+const frame=document.getElementById("zoneFrame");
+frame.srcdoc=html;
+document.getElementById("zoneViewer").style.display="block";
+}
 </script>
 
-<!-- ✅ MERGED LOADER -->
+<!-- ✅ REAL INTEGRATION -->
 
 <script>
-function launch() {
-const iframe = document.getElementById("zoneFrame");
-
-try {
-fetch("https://cdn.jsdelivr.net/gh/freebuisness/freebuisness.github.io@main/singlefile.html?t=" + Date.now())
-.then(response => response.text())
-.then(html => {
-iframe.srcdoc = html;
-});
-} catch (error) {
-console.error('error:', error);
-}
+function loadRemoteZone(){
+fetch("https://cdn.jsdelivr.net/gh/freebuisness/freebuisness.github.io@main/singlefile.html?t="+Date.now())
+.then(res=>res.text())
+.then(html=>{
+openZoneWithHTML(html);
+})
+.catch(err=>console.error(err));
 }
 </script>
 
