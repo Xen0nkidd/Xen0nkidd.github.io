@@ -135,18 +135,3 @@ document.getElementById("zoneViewer").style.display="block";
 }
 </script>
 
-<!-- ✅ REAL INTEGRATION -->
-
-<script>
-function loadRemoteZone(){
-fetch("https://cdn.jsdelivr.net/gh/freebuisness/freebuisness.github.io@main/singlefile.html?t="+Date.now())
-.then(res=>res.text())
-.then(html=>{
-openZoneWithHTML(html);
-})
-.catch(err=>console.error(err));
-}
-</script>
-
-</body>
-</html>
