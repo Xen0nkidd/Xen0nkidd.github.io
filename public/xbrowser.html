@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Browser</title>
+  <style>
+    :root {
+      --bg: #1a1024;
+      --surface: #241833;
+      --sunken: #1e1430;
+      --border: rgba(255,255,255,.10);
+      --text: #f3eef8;
+      --muted: #b9a8cc;
+      --accent: #c084fc;
+      --accent-strong: #a855f7;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+    #wrap { position: fixed; inset: 0; display: flex; flex-direction: column; }
+    #bar {
+      flex: 0 0 auto; display: flex; gap: 8px; align-items: center;
+      padding: 10px 12px; background: var(--surface); border-bottom: 1px solid var(--border);
+    }
+    #bar button {
+      height: 36px; min-width: 36px; padding: 0 12px; border-radius: 10px;
+      border: 1px solid var(--border); background: var(--sunken); color: var(--text); cursor: pointer;
+    }
+    #bar button:hover { border-color: rgba(192,132,252,.45); }
+    #bar button.go {
+      background: linear-gradient(180deg, #c084fc, #9333ea); border-color: transparent;
+      color: #1a1024; font-weight: 700;
+    }
+    #addr {
+      flex: 1; height: 38px; border-radius: 999px; border: 1px solid var(--border);
+      background: var(--sunken); color: var(--text); padding: 0 16px; outline: none;
+    }
+    #addr:focus { border-color: rgba(192,132,252,.55); box-shadow: 0 0 0 3px rgba(168,85,247,.18); }
+    #frame-parent { flex: 1; position: relative; min-height: 0; background: #0d0814; }
+    #frame-parent iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    #status { display: none; padding: 14px 16px; color: #f9a8d4; font-size: 13px; }
+    #status.show { display: block; }
+  </style>
+  <script src="/js/education-proxy-paths.js"></script>
+  <script src="/js/all.js"></script>
+  <script src="/js/index.js"></script>
+  <script src="/js/register-sw.js"></script>
+</head>
+<body>
+  <div id="wrap">
+    <div id="bar">
+      <button type="button" id="back" title="Back">←</button>
+      <button type="button" id="fwd" title="Forward">→</button>
+      <button type="button" id="reload" title="Reload">↻</button>
+      <input id="addr" type="text" placeholder="Search the web or enter a link" spellcheck="false" autocomplete="off" />
+      <button type="button" class="go" id="go">Go</button>
+    </div>
+    <div id="status"></div>
+    <div id="frame-parent"></div>
+  </div>
+  <script>
+(async function () {
+  const status = document.getElementById("status");
+  const addr = document.getElementById("addr");
+  const parent = document.getElementById("frame-parent");
+  let frame = null;
+
+  function err(msg) {
+    status.className = "show";
+    status.textContent = msg;
+  }
+
+  function normalize(q) {
+    q = String(q || "").trim();
+    if (!q) return "";
+    if (/^https?:\/\//i.test(q)) return q;
+    if (/^[a-z0-9.-]+\.[a-z]{2,}([/:].*)?$/i.test(q)) return "https://" + q;
+    return "https://duckduckgo.com/?q=" + encodeURIComponent(q);
+  }
+
+  async function init() {
+    try {
+      if (typeof waitForProxyServiceWorkerControl === "function") {
+        const st = await waitForProxyServiceWorkerControl({
+          reloadKey: "xenon-xbrowser-sw",
+          maxWaitMs: 20000,
+        });
+        if (st === "reload") return;
+      } else if (typeof registerSW === "function") {
+        await registerSW();
+        await navigator.serviceWorker.ready;
+      }
+
+      if (typeof $scramjetLoadController === "undefined") throw new Error("Scramjet missing");
+      if (typeof BareMux === "undefined") throw new Error("BareMux missing");
+      const P = globalThis.velaraEduProxy;
+      if (!P) throw new Error("velaraEduProxy missing");
+
+      const { ScramjetController } = $scramjetLoadController();
+      const scramjet = new ScramjetController({
+        prefix: P.lessonPrefix,
+        files: {
+          wasm: P.runtimeBase + "wasm.wasm",
+          all: P.runtimeBase + "all.js",
+          sync: P.runtimeBase + "sync.js",
+        },
+        ...(globalThis.velaraScramjetCodec ? { codec: globalThis.velaraScramjetCodec } : {}),
+      });
+      await scramjet.init();
+
+      const connection = new BareMux.BareMuxConnection(P.messagingBase + "worker.js");
+      const wispUrl = (location.protocol === "https:" ? "wss" : "ws") + "://" + location.host + P.wispPath;
+      await connection.setTransport(P.transportBase + "index.mjs?v=20260512d", [{ websocket: wispUrl }]);
+
+      frame = scramjet.createFrame(parent);
+      status.className = "";
+
+      const to = new URLSearchParams(location.search).get("to");
+      if (to) { addr.value = to; go(to); }
+
+      window.addEventListener("message", (ev) => {
+        const d = ev.data;
+        if (d && d.type === "xenon-navigate" && d.url) {
+          addr.value = d.url;
+          go(d.url);
+        }
+      });
+      try { window.parent.postMessage({ type: "xenon-browser-ready" }, "*"); } catch (e) {}
+    } catch (e) {
+      console.error(e);
+      err("Proxy engine error: " + (e && e.message ? e.message : e));
+    }
+  }
+
+  function go(raw) {
+    const url = normalize(raw || addr.value);
+    if (!url || !frame) return;
+    addr.value = url;
+    try { frame.go(url); } catch (e) { err(String(e)); }
+  }
+
+  document.getElementById("go").onclick = () => go();
+  addr.addEventListener("keydown", (e) => { if (e.key === "Enter") go(); });
+  document.getElementById("reload").onclick = () => { try { go(addr.value); } catch (e) {} };
+  document.getElementById("back").onclick = () => { try { history.back(); } catch (e) {} };
+  document.getElementById("fwd").onclick = () => { try { history.forward(); } catch (e) {} };
+  init();
+})();
+  </script>
+</body>
+</html>
