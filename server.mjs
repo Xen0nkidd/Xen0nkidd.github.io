@@ -9,39 +9,28 @@ const publicDir = path.join(__dirname, "public");
 const PORT = Number(process.env.PORT) || 3000;
 
 const app = express();
+app.use(express.static(publicDir, {
+  setHeaders(res, filePath) {
+    if (filePath.endsWith(".wasm")) res.setHeader("Content-Type", "application/wasm");
+  },
+}));
 
-// Correct MIME for wasm (important for Scramjet)
-app.use(
-  express.static(publicDir, {
-    setHeaders(res, filePath) {
-      if (filePath.endsWith(".wasm")) {
-        res.setHeader("Content-Type", "application/wasm");
-      }
-      if (filePath.endsWith(".js") || filePath.endsWith(".mjs")) {
-        res.setHeader("Cache-Control", "no-cache");
-      }
-    },
-  }),
-);
+app.get(/^\/education\/lesson(\/.*)?$/, (req, res) => {
+  res.redirect(302, "/xbrowser.html");
+});
+app.get("/browse", (req, res) => {
+  const to = req.query.to ? `?to=${encodeURIComponent(String(req.query.to))}` : "";
+  res.redirect(302, "/xbrowser.html" + to);
+});
 
 const server = http.createServer(app);
-
-// Velara client connects to: wss://HOST/education/channel/
 server.on("upgrade", (req, socket, head) => {
   let pathname = "/";
-  try {
-    pathname = new URL(req.url || "/", "http://localhost").pathname;
-  } catch (_) {}
-
+  try { pathname = new URL(req.url || "/", "http://localhost").pathname; } catch (_) {}
   if (pathname === "/education/channel/" || pathname === "/education/channel") {
     wisp.routeRequest(req, socket, head);
     return;
   }
-
   socket.destroy();
 });
-
-server.listen(PORT, "0.0.0.0", () => {
-  console.log(`Velara browser listening on ${PORT}`);
-  console.log(`Wisp path: /education/channel/`);
-});
+server.listen(PORT, "0.0.0.0", () => console.log("listening", PORT));
