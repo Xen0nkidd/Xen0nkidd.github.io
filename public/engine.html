@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Engine</title>
+  <style>
+    html, body { margin: 0; height: 100%; background: #fff; }
+    #status {
+      position: fixed; z-index: 9999; left: 12px; right: 12px; top: 12px;
+      padding: 12px 14px; border-radius: 10px; font: 13px/1.4 system-ui, sans-serif;
+      background: #1e1b2e; color: #e9e4f5; display: none;
+    }
+    #status.show { display: block; }
+    #status.err { background: #3b1220; color: #fecdd3; }
+    #f { position: fixed; inset: 0; }
+  </style>
+</head>
+<body>
+  <div id="status" class="show">Starting proxy engine…</div>
+  <div id="f"></div>
+
+  <script src="/js/education-proxy-paths.js"></script>
+  <script src="/js/all.js"></script>
+  <script src="/js/index.js"></script>
+  <script src="/js/register-sw.js"></script>
+  <script>
+(async function () {
+  const status = document.getElementById("status");
+  const parent = document.getElementById("f");
+  function setStatus(msg, isErr) {
+    status.textContent = msg;
+    status.className = "show" + (isErr ? " err" : "");
+  }
+  function hideStatus() {
+    status.className = "";
+  }
+
+  function normalize(q) {
+    q = String(q || "").trim();
+    if (!q) return "";
+    if (/^https?:\/\//i.test(q)) return q;
+    if (/^[a-z0-9.-]+\.[a-z]{2,}([/:].*)?$/i.test(q)) return "https://" + q;
+    return "https://duckduckgo.com/?q=" + encodeURIComponent(q);
+  }
+
+  let frame = null;
+
+  try {
+    if (!globalThis.velaraEduProxy) throw new Error("education-proxy-paths.js failed to load");
+    if (typeof $scramjetLoadController !== "function") throw new Error("Scramjet all.js failed ($scramjetLoadController missing)");
+    if (typeof BareMux === "undefined") throw new Error("BareMux (index.js) failed to load");
+    if (typeof registerSW !== "function") throw new Error("register-sw.js failed to load");
+
+    setStatus("Registering service worker…");
+    if (typeof waitForProxyServiceWorkerControl === "function") {
+      const st = await waitForProxyServiceWorkerControl({
+        reloadKey: "xenon-engine-sw-v2",
+        maxWaitMs: 20000,
+      });
+      if (st === "reload") return;
+      if (st !== "ok") {
+        console.warn("SW not controlling, continuing", st);
+        setStatus("Service worker not controlling page yet — retrying register…");
+        await registerSW();
+        await navigator.serviceWorker.ready;
+      }
+    } else {
+      await registerSW();
+      await navigator.serviceWorker.ready;
+    }
+
+    setStatus("Init Scramjet…");
+    const P = globalThis.velaraEduProxy;
+    const { ScramjetController } = $scramjetLoadController();
+    const scramjet = new ScramjetController({
+      prefix: P.lessonPrefix,
+      files: {
+        wasm: P.runtimeBase + "wasm.wasm",
+        all: P.runtimeBase + "all.js",
+        sync: P.runtimeBase + "sync.js",
+      },
+      ...(globalThis.velaraScramjetCodec ? { codec: globalThis.velaraScramjetCodec } : {}),
+    });
+    await scramjet.init();
+
+    setStatus("Connecting transport (Wisp)…");
+    const connection = new BareMux.BareMuxConnection(P.messagingBase + "worker.js");
+    const wispUrl =
+      (location.protocol === "https:" ? "wss" : "ws") +
+      "://" + location.host + P.wispPath;
+    try {
+      await connection.setTransport(P.transportBase + "index.mjs?v=20260512d", [
+        { websocket: wispUrl },
+      ]);
+    } catch (err) {
+      console.warn("transport warm-up", err);
+      setStatus("Transport warning: " + err, true);
+    }
+
+    setStatus("Creating frame…");
+    frame = scramjet.createFrame(parent);
+    hideStatus();
+
+    function go(raw) {
+      const url = normalize(raw);
+      if (!url || !frame) return;
+      setStatus("Loading " + url);
+      try {
+        frame.go(url);
+        setTimeout(hideStatus, 800);
+      } catch (e) {
+        setStatus(String(e), true);
+      }
+    }
+
+    window.xenonGo = go;
+    window.addEventListener("message", (ev) => {
+      const d = ev.data;
+      if (d && d.type === "xenon-navigate" && d.url) go(d.url);
+    });
+
+    const to = new URLSearchParams(location.search).get("to");
+    if (to) go(to);
+    else setStatus("Engine ready — waiting for URL");
+
+    try {
+      if (window.parent && window.parent !== window) {
+        window.parent.postMessage({ type: "xenon-engine-ready" }, "*");
+      }
+    } catch (e) {}
+  } catch (e) {
+    console.error(e);
+    setStatus("Engine failed: " + (e && e.message ? e.message : e), true);
+  }
+})();
+  </script>
+</body>
+</html>
