@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title> </title>
+  <style>
+    html, body, #f { margin: 0; height: 100%; width: 100%; background: #fff; }
+    #f { position: fixed; inset: 0; }
+    #f iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    #err { display:none; padding:16px; font:13px system-ui; color:#b91c1c; }
+    #err.show { display:block; }
+  </style>
+  <script src="/js/education-proxy-paths.js"></script>
+  <script src="/js/all.js"></script>
+  <script src="/js/index.js"></script>
+  <script src="/js/register-sw.js"></script>
+</head>
+<body>
+  <div id="err"></div>
+  <div id="f"></div>
+  <script>
+(async function () {
+  const err = document.getElementById("err");
+  const parent = document.getElementById("f");
+  let frame = null;
+
+  function normalize(q) {
+    q = String(q || "").trim();
+    if (!q) return "";
+    if (/^https?:\/\//i.test(q)) return q;
+    if (/^[a-z0-9.-]+\.[a-z]{2,}([/:].*)?$/i.test(q)) return "https://" + q;
+    return "https://duckduckgo.com/?q=" + encodeURIComponent(q);
+  }
+
+  async function init() {
+    try {
+      if (typeof waitForProxyServiceWorkerControl === "function") {
+        const st = await waitForProxyServiceWorkerControl({ reloadKey: "xenon-engine", maxWaitMs: 20000 });
+        if (st === "reload") return;
+      } else if (typeof registerSW === "function") {
+        await registerSW();
+        await navigator.serviceWorker.ready;
+      }
+      if (typeof $scramjetLoadController === "undefined") throw new Error("Scramjet missing");
+      if (typeof BareMux === "undefined") throw new Error("BareMux missing");
+      const P = globalThis.velaraEduProxy;
+      if (!P) throw new Error("paths missing");
+
+      const { ScramjetController } = $scramjetLoadController();
+      const scramjet = new ScramjetController({
+        prefix: P.lessonPrefix,
+        files: {
+          wasm: P.runtimeBase + "wasm.wasm",
+          all: P.runtimeBase + "all.js",
+          sync: P.runtimeBase + "sync.js",
+        },
+        ...(globalThis.velaraScramjetCodec ? { codec: globalThis.velaraScramjetCodec } : {}),
+      });
+      await scramjet.init();
+      const connection = new BareMux.BareMuxConnection(P.messagingBase + "worker.js");
+      const wispUrl = (location.protocol === "https:" ? "wss" : "ws") + "://" + location.host + P.wispPath;
+      await connection.setTransport(P.transportBase + "index.mjs?v=20260512d", [{ websocket: wispUrl }]);
+      frame = scramjet.createFrame(parent);
+
+      const to = new URLSearchParams(location.search).get("to");
+      if (to) go(to);
+
+      window.addEventListener("message", (ev) => {
+        const d = ev.data;
+        if (d && d.type === "xenon-navigate" && d.url) go(d.url);
+      });
+      try { parent.postMessage({ type: "xenon-engine-ready" }, "*"); } catch (e) {}
+    } catch (e) {
+      err.className = "show";
+      err.textContent = String(e && e.message ? e.message : e);
+    }
+  }
+
+  function go(raw) {
+    const url = normalize(raw);
+    if (!url || !frame) return;
+    try { frame.go(url); } catch (e) {
+      err.className = "show";
+      err.textContent = String(e);
+    }
+  }
+  window.xenonGo = go;
+  init();
+})();
+  </script>
+</body>
+</html>
