@@ -826,7 +826,23 @@ function or(e, t) {
     '<link rel="icon" href="https://www.ixl.com/ixl-favicon.png">',
     "<style>html,body{margin:0;height:100%;background:" + _bg + ";overflow:hidden}iframe{position:fixed;inset:0;width:100%;height:100%;border:0}</style>",
     "<script>try{var S=" + JSON.stringify(_s) + ';if(S)localStorage.setItem("arctic_settings_v1",S);document.documentElement.setAttribute("data-palette","' + _p + '");}catch(e){}<\/script>',
-    "</head><body>",
+    "
+<style id="xenon-engine-css">
+  /* When engine is active, hide Arctic's own blank page frames */
+  html.xenon-engine-on .arctic-surface-flush iframe:not(#xenon-engine-content) {
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+  #xenon-engine-content {
+    position: fixed !important;
+    z-index: 2147483000 !important;
+    border: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+</style>
+
+</head><body>",
     '<iframe src="' + tr(e) + '" allow="autoplay; fullscreen; clipboard-read; clipboard-write; encrypted-media; picture-in-picture"></iframe>',
     "</body></html>"
   ].join("");
@@ -4477,16 +4493,15 @@ html[data-palette=gnmath] .play-surface-spinner {
       var v =
         cs.getPropertyValue("--bg-base").trim() ||
         cs.getPropertyValue("--bg").trim() ||
-        cs.getPropertyValue("--surface").trim() ||
         cs.backgroundColor;
       if (v && v !== "rgba(0, 0, 0, 0)" && v !== "transparent") return v;
     } catch (e) {}
-    return "#120c1a";
+    return "#1a1028";
   }
 
   function engineUrl(to) {
     var u = ENGINE + "?bg=" + encodeURIComponent(themeBg());
-    if (to) u += "&to=" + encodeURIComponent(to);
+    if (to) u += "&to=" + encodeURIComponent(String(to).trim());
     return u;
   }
 
@@ -4499,91 +4514,92 @@ html[data-palette=gnmath] .play-surface-spinner {
     return !!document.querySelector('input[aria-label="Address and search"]');
   }
 
-  function measureChrome() {
-    var left = 0, top = 0;
-    var side =
-      document.querySelector(".arctic-arctic") ||
-      document.querySelector("[class*='arctic-rail']");
-    if (side) {
-      var sr = side.getBoundingClientRect();
-      if (sr.width > 40 && sr.width < 160 && sr.left < 100) {
-        left = Math.max(0, Math.ceil(sr.right));
-      }
-    }
+  function chromeTop() {
     var input = document.querySelector('input[aria-label="Address and search"]');
     if (input) {
-      var el = input;
-      for (var i = 0; i < 8 && el; i++) {
+      // Find the bottom of the whole browser chrome strip
+      var best = input.getBoundingClientRect().bottom;
+      var el = input.parentElement;
+      for (var i = 0; i < 10 && el; i++) {
         var r = el.getBoundingClientRect();
-        if (r.width > window.innerWidth * 0.45) {
-          top = Math.ceil(r.bottom);
-          break;
+        // full-width bar
+        if (r.width > window.innerWidth * 0.6 && r.top < 160) {
+          best = Math.max(best, r.bottom);
         }
         el = el.parentElement;
       }
-      if (!top) top = Math.ceil(input.getBoundingClientRect().bottom + 6);
-    } else if (isBrowserRoute()) {
-      top = 96;
+      // also include tab strip above
+      var tabs = document.querySelector("[class*='tab']");
+      return Math.ceil(best);
     }
-    return { left: left, top: top };
+    return 100;
+  }
+
+  function chromeLeft() {
+    // Main Xenon sidebar only (not browser internal panels)
+    var side = document.querySelector(".arctic-arctic");
+    if (!side) return 0;
+    var r = side.getBoundingClientRect();
+    if (r.width > 40 && r.width < 120 && r.left < 20) return Math.ceil(r.right);
+    return 0;
+  }
+
+  function layout(frame) {
+    var top = chromeTop();
+    var left = chromeLeft();
+    var bg = themeBg();
+    frame.style.top = top + "px";
+    frame.style.left = left + "px";
+    frame.style.right = "0px";
+    frame.style.bottom = "0px";
+    frame.style.width = "auto";
+    frame.style.height = "auto";
+    frame.style.background = bg;
   }
 
   function ensureFrame() {
     var frame = document.getElementById("xenon-engine-content");
-    var bg = themeBg();
     if (!frame) {
       frame = document.createElement("iframe");
       frame.id = "xenon-engine-content";
       frame.allow =
         "fullscreen; autoplay; encrypted-media; picture-in-picture; clipboard-read; clipboard-write";
       frame.referrerPolicy = "no-referrer";
-      frame.style.cssText =
-        "position:fixed;border:0;z-index:2147483000;background:" +
-        bg +
-        ";";
       document.body.appendChild(frame);
+      // warm engine
       frame.src = engineUrl();
     }
-    var m = measureChrome();
-    frame.style.left = m.left + "px";
-    frame.style.top = m.top + "px";
-    frame.style.right = "0";
-    frame.style.bottom = "0";
-    frame.style.width = "auto";
-    frame.style.height = "auto";
-    frame.style.background = bg;
-    var show = isBrowserRoute();
-    frame.style.display = show ? "block" : "none";
-    try {
-      frame.contentWindow.postMessage({ type: "xenon-theme", bg: bg }, "*");
-    } catch (e) {}
+    layout(frame);
+    var on = isBrowserRoute();
+    frame.style.display = on ? "block" : "none";
+    document.documentElement.classList.toggle("xenon-engine-on", on);
     return frame;
   }
 
   function openInEngine(url) {
     url = String(url || "").trim();
     if (!url) return;
-    // Force Browser route so Arctic chrome shows
+    if (!/^https?:\/\//i.test(url) && /^[a-z0-9.-]+\.[a-z]{2,}/i.test(url)) {
+      url = "https://" + url;
+    }
     try {
-      if (!isBrowserRoute()) {
-        location.hash = "#/browser";
-      }
+      if (!isBrowserRoute()) location.hash = "#/browser";
     } catch (e) {}
+
     var frame = ensureFrame();
-    var next = engineUrl(url);
     frame.style.display = "block";
+    document.documentElement.classList.add("xenon-engine-on");
+    layout(frame);
+
+    // Hard navigation into engine with ?to= (most reliable)
+    var next = engineUrl(url);
     frame.src = next;
-    frame.onload = function () {
-      try {
-        frame.contentWindow.postMessage({ type: "xenon-navigate", url: url }, "*");
-        frame.contentWindow.postMessage({ type: "xenon-theme", bg: themeBg() }, "*");
-      } catch (e) {}
-    };
+    console.log("[Xenon] engine load", next);
   }
 
   window.openXenonEngine = openInEngine;
 
-  // Address bar Enter → engine
+  // Address bar
   document.addEventListener(
     "keydown",
     function (e) {
@@ -4597,39 +4613,26 @@ html[data-palette=gnmath] .play-surface-spinner {
     true
   );
 
-  // Home search / quick links / any navigation attempt into old browser
+  // Clicks: quick links + external
   document.addEventListener(
     "click",
     function (e) {
       var t = e.target;
       if (!t || !t.closest) return;
 
-      // Sidebar Browser
       var nav = t.closest(".arctic-arctic-item");
       if (nav && /\bBrowser\b/i.test(nav.textContent || "")) {
-        setTimeout(function () {
-          ensureFrame();
-        }, 100);
-        setTimeout(ensureFrame, 400);
+        setTimeout(ensureFrame, 80);
+        setTimeout(ensureFrame, 350);
         return;
       }
 
-      // Quick links & home tiles: intercept links that would open via Arctic proxy
-      var a = t.closest("a[href], button, [role='button'], [data-url], [data-href]");
+      var a = t.closest("a, button, [role='button'], [data-url]");
       if (!a) return;
-
-      // Skip pure UI (settings, edit, cloak buttons)
-      var label = (a.textContent || "").replace(/\s+/g, " ").trim();
-      if (/^(Edit|Settings|Home|Apps|Games|AI|Chat|about:blank|blob:null)$/i.test(label)) return;
       if (a.closest(".cloak-launch")) return;
+      var label = (a.textContent || "").replace(/\s+/g, " ").trim();
+      if (/^(Edit|Settings|Home|Apps|Games|AI|Chat)$/i.test(label)) return;
 
-      var href =
-        a.getAttribute("data-url") ||
-        a.getAttribute("data-href") ||
-        a.getAttribute("href") ||
-        "";
-
-      // Quick link rows often have no href — try known names
       var known = {
         discord: "https://discord.com/app",
         roblox: "https://www.roblox.com",
@@ -4637,22 +4640,17 @@ html[data-palette=gnmath] .play-surface-spinner {
         youtube: "https://www.youtube.com",
         snapchat: "https://www.snapchat.com",
         instagram: "https://www.instagram.com",
-        movies: "https://www.youtube.com/results?search_query=movies",
+        movies: "https://www.youtube.com",
         music: "https://music.youtube.com",
       };
-      var key = label.toLowerCase();
-      if (known[key]) href = known[key];
-
-      // Relative arctic routes
-      if (!href || href === "#" || href.startsWith("javascript:")) {
-        // might still be a quick-link button with only text
-        if (known[key]) href = known[key];
-        else return;
-      }
-      if (href.startsWith("#/")) return; // internal arctic route
-
-      // External http(s) → engine, not Arctic browser
-      if (/^https?:\/\//i.test(href) || known[key]) {
+      var href =
+        a.getAttribute("data-url") ||
+        a.getAttribute("href") ||
+        known[label.toLowerCase()] ||
+        "";
+      if (known[label.toLowerCase()]) href = known[label.toLowerCase()];
+      if (!href || href === "#" || href.indexOf("#/") === 0) return;
+      if (/^https?:\/\//i.test(href) || known[label.toLowerCase()]) {
         e.preventDefault();
         e.stopImmediatePropagation();
         openInEngine(href);
@@ -4661,31 +4659,18 @@ html[data-palette=gnmath] .play-surface-spinner {
     true
   );
 
-  // Home omni search form
   document.addEventListener(
     "submit",
     function (e) {
       var form = e.target;
       if (!form || !form.querySelector) return;
-      if (form.closest && form.closest("#xenon-engine-content")) return;
-      var input =
-        form.querySelector('input[type="search"], input[type="text"], input:not([type])') ||
-        null;
+      var input = form.querySelector(
+        'input[aria-label="Address and search"], input[placeholder*="Search" i], input[placeholder*="link" i]'
+      );
       if (!input) return;
-      // Browser address already handled
-      if (input.getAttribute("aria-label") === "Address and search") {
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        openInEngine(input.value);
-        return;
-      }
-      // Home "Search the web or enter a link"
-      var ph = (input.getAttribute("placeholder") || "").toLowerCase();
-      if (ph.indexOf("search") !== -1 || ph.indexOf("link") !== -1) {
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        openInEngine(input.value);
-      }
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      openInEngine(input.value);
     },
     true
   );
@@ -4695,24 +4680,20 @@ html[data-palette=gnmath] .play-surface-spinner {
     else {
       var f = document.getElementById("xenon-engine-content");
       if (f) f.style.display = "none";
+      document.documentElement.classList.remove("xenon-engine-on");
     }
   }
 
   window.addEventListener("hashchange", function () {
-    setTimeout(sync, 60);
+    setTimeout(sync, 50);
   });
   window.addEventListener("resize", function () {
     var f = document.getElementById("xenon-engine-content");
-    if (f && f.style.display !== "none") {
-      var m = measureChrome();
-      f.style.left = m.left + "px";
-      f.style.top = m.top + "px";
-      f.style.background = themeBg();
-    }
+    if (f && f.style.display !== "none") layout(f);
   });
   setInterval(sync, 2000);
 
-  console.log("[Xenon] engine bridge ready", ENGINE);
+  console.log("[Xenon] full-cover engine bridge", ENGINE);
 })();
 </script>
 
