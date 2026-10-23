@@ -8,22 +8,32 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const publicDir = path.join(__dirname, "public");
 const PORT = Number(process.env.PORT) || 3000;
 const app = express();
+
 app.use(express.static(publicDir, {
   setHeaders(res, filePath) {
     if (filePath.endsWith(".wasm")) res.setHeader("Content-Type", "application/wasm");
   },
 }));
+
 app.get("/", (_req, res) => {
-  res.type("html").send("<!doctype html><p>Xenon proxy engine. Use the site Browser tab.</p>");
+  res.type("html").send(`<!doctype html><p>Xenon engine. Open <a href="/engine.html">/engine.html</a></p>`);
 });
+
 const server = http.createServer(app);
+
 server.on("upgrade", (req, socket, head) => {
-  let p = "/";
-  try { p = new URL(req.url || "/", "http://localhost").pathname; } catch (_) {}
-  if (p === "/education/channel/" || p === "/education/channel") {
+  let pathname = "/";
+  try {
+    pathname = new URL(req.url || "/", "http://localhost").pathname;
+  } catch (_) {}
+  console.log("upgrade", pathname);
+  if (pathname === "/education/channel/" || pathname === "/education/channel") {
     wisp.routeRequest(req, socket, head);
     return;
   }
   socket.destroy();
 });
-server.listen(PORT, "0.0.0.0", () => console.log("ok", PORT));
+
+server.listen(PORT, "0.0.0.0", () => {
+  console.log("ok", PORT);
+});
