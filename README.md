@@ -1,25 +1,26 @@
-# Velara Browser (Railway)
+# Xen0nkidd
 
-Minimal Velara proxy browser + Wisp server.
+Xen0nkidd is a website that provides games and an unblocked browser in one place. It was made for students who want to play games or browse the web during their free time.
 
-## Deploy on Railway
+Website: https://xen0nkidd.github.io
 
-1. Push this folder to a GitHub repo.
-2. railway.app → New Project → Deploy from GitHub repo.
-3. Settings → Networking → Generate Domain.
-4. Open the Railway HTTPS URL (not github.io).
+## Features
 
-## Local test
+- A collection of browser games
+- Built-in unblocked browser
+- Simple and easy-to-use interface
+- Works on most devices with a web browser
 
-```bash
-npm install
-npm start
-# open http://localhost:3000
-```
+## About
 
-## Paths
+The goal of Xen0nkidd is to make games and browsing easily accessible from one website without needing to install anything.
 
-- UI: `/`
-- Service worker: `/sw.js`
-- Wisp WebSocket: `/education/channel/`
-- Scramjet runtime: `/education/runtime/`
+## Technologies
+
+- HTML
+- CSS
+- JavaScript
+
+## Disclaimer
+
+Please use the website responsibly and follow your school's internet usage policies.
