@@ -14,13 +14,3 @@ Website: https://xen0nkidd.github.io
 ## About
 
 The goal of Xen0nkidd is to make games and browsing easily accessible from one website without needing to install anything.
-
-## Technologies
-
-- HTML
-- CSS
-- JavaScript
-
-## Disclaimer
-
-Please use the website responsibly and follow your school's internet usage policies.
