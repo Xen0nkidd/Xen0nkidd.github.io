@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IXL | Math, Language Arts, Science, Social Studies, and Spanish</title>
+<link rel="icon" href="https://www.ixl.com/ixl-favicon.png" type="image/png">
+<meta name="description" content="IXL is the world's most popular subscription-based learning site for K-12.">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background: #e8f6ff;
+    color: #333;
+    min-height: 100vh;
+  }
+
+  /* ===== TOP GREEN BAR ===== */
+  .topbar {
+    background: #7ac143;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    gap: 16px;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+  .logo img {
+    height: 32px;
+    width: auto;
+  }
+  .search-wrap {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+  .search-pill {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border-radius: 999px;
+    height: 36px;
+    width: 100%;
+    max-width: 360px;
+    padding: 0 8px 0 4px;
+    box-shadow: 0 1px 2px rgba(0,0,0,.08);
+  }
+  .search-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #c5e9cf url("https://www.ixl.com/dv3/gdrakqwN9by4T6faOtQ8MHsNU2s/yui3/site-nav/assets/icon-mag-glass.svg") center / 14px no-repeat;
+    flex-shrink: 0;
+    margin-right: 6px;
+  }
+  .search-input {
+    flex: 1;
+    border: 0;
+    outline: 0;
+    font-size: 13px;
+    color: #333;
+    background: transparent;
+    height: 34px;
+  }
+  .search-input::placeholder { color: #8a8a8a; }
+  .search-divider {
+    width: 1px;
+    height: 18px;
+    background: #d0d0d0;
+    margin: 0 6px;
+  }
+  .search-go {
+    width: 20px;
+    height: 20px;
+    border: 0;
+    background: transparent url("https://www.ixl.com/dv3/gdrakqwN9by4T6faOtQ8MHsNU2s/yui3/site-nav/assets/search-right-chevron.svg") center / 12px no-repeat;
+    cursor: pointer;
+  }
+  .top-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  .btn-signin {
+    background: #2b8acd;
+    color: #fff;
+    border: 0;
+    border-radius: 6px;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+  }
+  .btn-member {
+    background: #e8f8d8;
+    color: #3a7a1a;
+    border: 0;
+    border-radius: 6px;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  /* ===== NAV ===== */
+  .nav {
+    background: #7ac143;
+    display: flex;
+    justify-content: center;
+    gap: 36px;
+    padding: 0 20px 10px;
+  }
+  .nav a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 4px 0;
+  }
+  .nav a:hover { text-decoration: underline; }
+
+  /* ===== HERO ===== */
+  .hero {
+    position: relative;
+    background: linear-gradient(180deg, #c8ebf8 0%, #e8f6ff 60%, #f5fafc 100%);
+    padding: 28px 16px 40px;
+    overflow: hidden;
+    min-height: 420px;
+  }
+  .hero-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+    color: #2b7bb9;
+    margin-bottom: 24px;
+  }
+  .hero-title span { font-weight: 400; color: #2b7bb9; }
+
+  .clouds {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 18px;
+    flex-wrap: wrap;
+    max-width: 980px;
+    margin: 0 auto 20px;
+  }
+  .cloud {
+    width: 280px;
+    height: 220px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 36px 28px 28px;
+    position: relative;
+  }
+  .cloud-1 { background-image: url("https://www.ixl.com/dv3/iG285JgVwS5ML2YwkhlmIsgeoyc/yui3/home-page/assets/home-2019/cloud-light-blue-max.svg"); }
+  .cloud-2 { background-image: url("https://www.ixl.com/dv3/iG285JgVwS5ML2YwkhlmIsgeoyc/yui3/home-page/assets/home-2019/cloud-max-purple.svg"); }
+  .cloud-3 { background-image: url("https://www.ixl.com/dv3/iG285JgVwS5ML2YwkhlmIsgeoyc/yui3/home-page/assets/home-2019/cloud-teal-max.svg"); }
+
+  .cloud h2 {
+    font-size: 18px;
+    line-height: 1.2;
+    margin-bottom: 8px;
+    max-width: 200px;
+  }
+  .cloud-1 h2 { color: #2b8acd; }
+  .cloud-2 h2 { color: #7b4db8; }
+  .cloud-3 h2 { color: #1a9a8a; }
+
+  .cloud p, .cloud .body {
+    font-size: 12.5px;
+    line-height: 1.4;
+    color: #444;
+    max-width: 200px;
+  }
+  .cloud .body a {
+    color: #444;
+    text-decoration: none;
+  }
+  .cloud .body a:hover { text-decoration: underline; }
+  .cloud .dot { color: #999; margin: 0 3px; }
+  .cloud .arrow {
+    margin-top: 8px;
+    width: 16px;
+    height: auto;
+  }
+
+  .cta {
+    display: block;
+    margin: 8px auto 0;
+    background: #7ac143;
+    color: #fff;
+    border: 0;
+    border-radius: 8px;
+    padding: 10px 22px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    width: fit-content;
+  }
+  .cta:hover { filter: brightness(.95); }
+
+  /* ===== LOWER CARDS ===== */
+  .lower {
+    background: #f7f9fb;
+    padding: 28px 16px 48px;
+  }
+  .promo-row {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    max-width: 900px;
+    margin: 0 auto 28px;
+  }
+  .promo {
+    background: #e8f6e0;
+    border-radius: 16px;
+    padding: 18px 22px;
+    width: 380px;
+    max-width: 100%;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .promo h3 {
+    font-size: 16px;
+    color: #2a6b1a;
+    margin-bottom: 4px;
+  }
+  .promo p {
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 6px;
+  }
+  .promo a {
+    font-size: 13px;
+    color: #2b8acd;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .grades {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 14px;
+    max-width: 980px;
+    margin: 0 auto;
+  }
+  .grade {
+    background: #fff;
+    border: 1px solid #e0e6ec;
+    border-radius: 10px;
+    padding: 16px 18px;
+  }
+  .grade-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: 14px;
+    margin-right: 8px;
+  }
+  .grade h4 {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+  .grade p {
+    font-size: 12.5px;
+    color: #666;
+    line-height: 1.4;
+    margin-bottom: 10px;
+  }
+  .grade-links {
+    font-size: 12.5px;
+    color: #2b8acd;
+  }
+  .grade-links span { color: #999; margin: 0 4px; }
+
+  @media (max-width: 700px) {
+    .topbar { flex-wrap: wrap; height: auto; padding: 10px 12px; gap: 10px; }
+    .search-wrap { order: 3; width: 100%; max-width: none; }
+    .nav { gap: 18px; font-size: 14px; }
+    .hero-title { font-size: 22px; }
+    .cloud { width: 260px; height: 200px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <a class="logo" href="https://www.ixl.com/" title="IXL">
+    <img src="https://www.ixl.com/dv3/gdrakqwN9by4T6faOtQ8MHsNU2s/yui3/site-nav/assets/ixl-logo.svg" alt="IXL" onerror="this.src='https://www.ixl.com/ixl-favicon.png'; this.style.height='28px';">
+  </a>
+  <div class="search-wrap">
+    <form class="search-pill" id="searchBar" onsubmit="return handleSearch(event)">
+      <div class="search-icon"></div>
+      <input class="search-input" type="search" id="searchInput" name="q" placeholder="Search topics, skills, and more" autocomplete="off" maxlength="200">
+      <div class="search-divider"></div>
+      <button type="submit" class="search-go" aria-label="Search"></button>
+    </form>
+  </div>
+  <div class="top-actions">
+    <a class="btn-signin" href="https://www.ixl.com/signin">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+      Sign in
+    </a>
+    <a class="btn-member" href="https://www.ixl.com/membership">Membership</a>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <a href="https://www.ixl.com/">Learning</a>
+  <a href="https://www.ixl.com/">Assessment</a>
+  <a href="https://www.ixl.com/analytics">Analytics</a>
+  <a href="https://www.ixl.com/">Inspiration</a>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <h1 class="hero-title">IXL <span>is</span> personalized learning</h1>
+
+  <div class="clouds">
+    <!-- Cloud 1 -->
+    <div class="cloud cloud-1">
+      <h2>Comprehensive<br>K–12 curriculum</h2>
+      <div class="body">
+        Math <span class="dot">•</span> Language arts <span class="dot">•</span> Science<br>
+        Social studies <span class="dot">•</span> Spanish
+      </div>
+      <img class="arrow" src="https://www.ixl.com/dv3/iG285JgVwS5ML2YwkhlmIsgeoyc/yui3/home-page/assets/home-2019/arrow-blue-1x.png" alt="">
+    </div>
+
+    <!-- Cloud 2 -->
+    <div class="cloud cloud-2">
+      <h2>Trusted by<br>educators and parents</h2>
+      <div class="body">
+        Over <strong>200 billion</strong> questions answered<br>
+        More than <strong>18 million</strong> students use IXL
+      </div>
+      <img class="arrow" src="https://www.ixl.com/dv3/iG285JgVwS5ML2YwkhlmIsgeoyc/yui3/home-page/assets/home-2019/arrow-purple-1x.png" alt="">
+    </div>
+
+    <!-- Cloud 3 -->
+    <div class="cloud cloud-3">
+      <h2>Immersive<br>learning experience</h2>
+      <div class="body">
+        Analytics <span class="dot">•</span> Recommendations<br>
+        Real-Time Diagnostic <span class="dot">•</span> Awards
+      </div>
+      <img class="arrow" src="https://www.ixl.com/dv3/iG285JgVwS5ML2YwkhlmIsgeoyc/yui3/home-page/assets/home-2019/arrow-teal-1x.png" alt="" onerror="this.style.display='none'">
+    </div>
+  </div>
+
+  <a class="cta" href="https://www.ixl.com/membership">Become a member!</a>
+</div>
+
+<!-- LOWER SECTION -->
+<div class="lower">
+  <div class="promo-row">
+    <div class="promo">
+      <div>
+        <h3>IXL for high school</h3>
+        <p>IXL helps high schoolers create their own path to success.</p>
+        <a href="https://www.ixl.com/">Take a look ›</a>
+      </div>
+    </div>
+    <div class="promo">
+      <div>
+        <h3>IXL for independent learners</h3>
+        <p>Yes, IXL is for adults, too!</p>
+        <a href="https://www.ixl.com/">Take a look ›</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="grades">
+    <div class="grade">
+      <h4><span class="grade-num" style="background:#e8f0fe;color:#2b8acd">P</span> Pre-K</h4>
+      <p>Counting objects, inside and outside, longer and shorter, letter names, rhyming words, and more.</p>
+      <div class="grade-links">Math <span>•</span> 170 skills <span>|</span> Language arts <span>•</span> 121 skills</div>
+    </div>
+    <div class="grade">
+      <h4><span class="grade-num" style="background:#fff3e0;color:#e67e22">K</span> Kindergarten</h4>
+      <p>Comparing numbers, names of shapes, letter names and sounds, plants and animals, communities, and more.</p>
+      <div class="grade-links">Math <span>•</span> 369 skills <span>|</span> Language arts <span>•</span> 209 skills</div>
+    </div>
+    <div class="grade">
+      <h4><span class="grade-num" style="background:#e8f5e9;color:#27ae60">1</span> First grade</h4>
+      <p>Adding and subtracting, tens and ones, short and long vowel words, light and sound, rules and laws, and more.</p>
+      <div class="grade-links">Math <span>•</span> 357 skills <span>|</span> Language arts <span>•</span> 238 skills</div>
+    </div>
+    <div class="grade">
+      <h4><span class="grade-num" style="background:#fce4ec;color:#c0392b">2</span> Second grade</h4>
+      <p>Place-value models, contractions, irregular plurals, plants and animals, historical figures, and more.</p>
+      <div class="grade-links">Math <span>•</span> 351 skills <span>|</span> Language arts <span>•</span> 242 skills</div>
+    </div>
+    <div class="grade">
+      <h4><span class="grade-num" style="background:#e3f2fd;color:#2980b9">3</span> Third grade</h4>
+      <p>Multiplying and dividing, bar graphs, pronouns, possessives, weather and climate, geography, and more.</p>
+      <div class="grade-links">Math <span>•</span> 412 skills <span>|</span> Language arts <span>•</span> 268 skills</div>
+    </div>
+    <div class="grade">
+      <h4><span class="grade-num" style="background:#f3e5f5;color:#8e44ad">4</span> Fourth grade</h4>
+      <p>Fractions and decimals, synonyms and antonyms, fossils and rock layers, government, and more.</p>
+      <div class="grade-links">Math <span>•</span> 431 skills <span>|</span> Language arts <span>•</span> 293 skills</div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var KEY = "xenon";
+  function go() { window.location.replace("app.html"); }
+  function shouldUnlock(val) {
+    return (val || "").trim().toLowerCase() === KEY;
+  }
+  window.handleSearch = function (e) {
+    e.preventDefault();
+    var input = document.getElementById("searchInput");
+    if (shouldUnlock(input && input.value)) {
+      go();
+      return false;
+    }
+    // normal search goes nowhere (cloak) — just stay on page
+    return false;
+  };
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      var input = document.getElementById("searchInput");
+      if (input && document.activeElement === input && shouldUnlock(input.value)) {
+        e.preventDefault();
+        go();
+      }
+    }
+  });
+})();
+</script>
+</body>
+</html>
