@@ -797,7 +797,7 @@ catch {
     return !1; const t = e.tagName; return "INPUT" === t || "TEXTAREA" === t || "SELECT" === t || !!e.isContentEditable || null !== e.closest('[contenteditable]:not([contenteditable="false"])'); }(o.target))) {
     if (o.preventDefault(), o.stopPropagation(), e.onFire?.(), "redirect" !== n.kind)
         return r ? (r(), void (r = null)) : void (r = function (e, t = {}) { const n = t.preview ?? !1; let r = !1, o = () => { }; const i = function (e, t) { const n = Wn("div", "position:fixed;inset:0;z-index:2147483600;background:#ffffff;overflow:auto;color:#202124;-webkit-font-smoothing:antialiased", [$n(e)], { role: "presentation" }); if (!t.preview)
-            return { element: n, cleanup: () => { } }; const r = t.onDismiss ?? (() => { }), o = Wn("div", "position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:1;background:rgba(17,24,32,0.92);color:#fff;padding:10px 18px;border-radius:999px;font:500 13px/1.4 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;box-shadow:0 6px 20px rgba(0,0,0,0.3)", ["Preview - click anywhere or press Esc to close"]); n.appendChild(o); const i = e => { "Escape" === e.key && (e.preventDefault(), r()); }, a = () => r(); return n.addEventListener("click", a), window.addEventListener("keydown", i, !0), { element: n, cleanup: () => { n.removeEventListener("click", a), window.removeEventListener("keydown", i, !0); } }; }(e, { preview: n, onDismiss: () => o() }); return o = () => { r || (r = !0, i.cleanup(), i.element.remove()); }, document.body.appendChild(i.element), o; }(n.presetId));
+            return { element: n, cleanup: () => { } }; const r = t.onDismiss ?? (() => { }), o = Wn("div", "position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:1;background:rgba(17,24,32,0.92);color:#fff;padding:10px 18px;border-radius:999px;font:500 13px/1.4 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;box-shadow:0 6px 20px rgba(0,0,0,0.3)", ["Preview — click anywhere or press Esc to close"]); n.appendChild(o); const i = e => { "Escape" === e.key && (e.preventDefault(), r()); }, a = () => r(); return n.addEventListener("click", a), window.addEventListener("keydown", i, !0), { element: n, cleanup: () => { n.removeEventListener("click", a), window.removeEventListener("keydown", i, !0); } }; }(e, { preview: n, onDismiss: () => o() }); return o = () => { r || (r = !0, i.cleanup(), i.element.remove()); }, document.body.appendChild(i.element), o; }(n.presetId));
     window.location.assign(n.url);
 } }; return window.addEventListener("keydown", o, !0), () => { window.removeEventListener("keydown", o, !0), r?.(), r = null; }; }
 function tr(e) { return e.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
@@ -826,56 +826,7 @@ function or(e, t) {
     '<link rel="icon" href="https://www.ixl.com/ixl-favicon.png">',
     "<style>html,body{margin:0;height:100%;background:" + _bg + ";overflow:hidden}iframe{position:fixed;inset:0;width:100%;height:100%;border:0}</style>",
     "<script>try{var S=" + JSON.stringify(_s) + ';if(S)localStorage.setItem("arctic_settings_v1",S);document.documentElement.setAttribute("data-palette","' + _p + '");}catch(e){}<\/script>',
-    "
-<style id="xenon-auth-layout-fix">
-.auth-panel {
-  max-height: min(90vh, 900px) !important;
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
-  padding-bottom: 24px !important;
-}
-.xenon-forgot-links,
-.xenon-auth-extra,
-.xenon-email-field {
-  position: relative !important;
-}
-/* Keep recovery blocks inside panel, not under the fold in a bad way */
-.xenon-auth-extra {
-  margin-top: 12px !important;
-  margin-bottom: 12px !important;
-  max-width: 100% !important;
-}
-@media (min-width: 900px) {
-  .chat-surface.chat-center,
-  .chat-center {
-    align-items: flex-start !important;
-  }
-  .auth-panel {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: wrap !important;
-    align-items: flex-start !important;
-    gap: 16px !important;
-    max-width: 920px !important;
-    width: 100% !important;
-  }
-  .auth-panel > .auth-title,
-  .auth-panel > .auth-subtitle,
-  .auth-panel > .auth-form,
-  .auth-panel > .auth-switch,
-  .auth-panel > .xenon-forgot-links {
-    flex: 1 1 320px !important;
-    min-width: 280px !important;
-  }
-  .auth-panel > .xenon-auth-extra {
-    flex: 1 1 280px !important;
-    min-width: 260px !important;
-    margin-top: 0 !important;
-  }
-}
-</style>
-
-</head><body>",
+    "</head><body>",
     '<iframe src="' + tr(e) + '" allow="autoplay; fullscreen; clipboard-read; clipboard-write; encrypted-media; picture-in-picture"></iframe>',
     "</body></html>"
   ].join("");
@@ -1061,7 +1012,7 @@ function Gr(e, t) { const n = e.ownerDocument, r = n.defaultView ?? window, o = 
 function Lr({ level: e, reducedEffects: t = !1 }) { const n = le(null), r = "off" !== e && !t; return ce(() => { if (!r)
     return; const o = n.current; if (!o)
     return; const i = Gr(o, { level: e, reducedEffects: t }); return () => i.destroy(); }, [r, e, t]), r ? F("div", { ref: n, class: "snow-layer", "aria-hidden": "true" }) : null; }
-const qr = "Welcome to arctic - stay frosty.";
+const qr = "Welcome to arctic — stay frosty.";
 function Fr() { const e = []; "" !== Et && e.push({ url: Et, kind: "text" }); for (const t of yt)
     e.push({ url: `${t}/api/motd`, kind: "json" }); return e; }
 function Yr(e) { return { motd: "string" == typeof e.motd && "" !== e.motd.trim() ? e.motd : qr, updatedAt: "number" == typeof e.updatedAt ? e.updatedAt : 0 }; }
@@ -3102,7 +3053,7 @@ function yc({ user: e, size: t = 34 }) { const n = { width: `${t}px`, height: `$
 function Bc({ message: e, resolve: t }) { return F("div", { class: "chat-msg" + (e.mine ? " chat-msg-mine" : ""), children: F("div", { class: "chat-bubble" + (e.failed ? " chat-bubble-failed" : ""), children: ["media" === e.kind && e.media ? F(Ec, { media: e.media, resolve: t }) : F("span", { class: "chat-text", children: e.text }), e.pending ? F("span", { class: "chat-status", children: "sending…" }) : null, e.failed ? F("span", { class: "chat-status chat-status-fail", children: "failed" }) : null] }) }); }
 function Qc() { const e = de(() => Vs(), []), { status: t, user: n, logout: r } = ec(), o = wc("authed" === t && n ? n.id : null), [i, a] = se(""), [s, c] = se(!1), [A, l] = se(""), [d, u] = se(""), g = le(null), h = le(null), [p, f] = se(null), m = o.friends.find(e => e.id === o.activeId) ?? null, v = o.activeId ? o.threads[o.activeId] ?? [] : []; ce(() => { const e = g.current; null !== e && (e.scrollTop = e.scrollHeight); }, [v.length, o.activeId]), ce(() => { const e = function () { const e = Cc; return Cc = null, e; }(); return e && f(e), t = e => f(e), bc.add(t), () => bc.delete(t); var t; }, []); const w = ue(async () => { const e = i.trim(); if ("" === e || s)
     return; c(!0), l(""); const t = await o.addFriend(e); c(!1), t.ok ? (a(""), l("friends" === t.status ? "Now friends!" : "Request sent")) : l(t.error ?? "Could not send request"); }, [i, s, o]), E = ue(() => { if (null === o.activeId)
-    return; const e = d.trim(); "" !== e && (u(""), o.sendText(o.activeId, e)); }, [o, d]), C = ue(e => { const t = e.target, n = t.files?.[0]; n && o.activeId && o.sendMedia(o.activeId, n), t.value = ""; }, [o]), b = ue(e => { p && (o.sendMedia(e, p), o.setActiveId(e)), f(null); }, [o, p]); return F("div", e ? "loading" === t ? { class: "chat-surface chat-center", children: F(In, { label: "Loading…" }) } : "authed" !== t || null === n ? { class: "chat-surface chat-center", children: F(nc, { title: "Sign in to chat", subtitle: "Your messages are end-to-end encrypted. Only you and your friend hold the keys." }) } : { class: "chat-surface", children: [F("aside", { class: "chat-sidebar", children: [F("header", { class: "chat-me", children: [F(yc, { user: n }), F("div", { class: "chat-me-name", children: n.username }), F("button", { type: "button", class: "chat-logout", onClick: () => { r(); }, children: "Sign out" })] }), F("div", { class: "chat-add", children: [F(Pn, { placeholder: "Add friend by username", value: i, onInput: e => a(e.target.value), onKeyDown: e => { "Enter" === e.key && w(); }, trailing: F("button", { type: "button", class: "chat-add-btn", onClick: () => { w(); }, disabled: s, "aria-label": "Send request", children: F(Cn, { size: 16 }) }) }), "" !== A ? F("div", { class: "chat-add-note", children: A }) : null] }), o.incoming.length > 0 ? F("div", { class: "chat-section", children: [F("div", { class: "chat-section-title", children: "Requests" }), o.incoming.map(e => F("div", { class: "chat-request", children: [F(yc, { user: e.user, size: 28 }), F("span", { class: "chat-request-name", children: e.user.username }), F("button", { type: "button", class: "chat-req-accept", onClick: () => { o.accept(e.id); }, "aria-label": "Accept", children: F(Bn, { size: 15 }) }), F("button", { type: "button", class: "chat-req-decline", onClick: () => { o.decline(e.id); }, "aria-label": "Decline", children: F(bn, { size: 15 }) })] }, e.id))] }) : null, F("div", { class: "chat-section chat-friends", children: [F("div", { class: "chat-section-title", children: "Friends" }), 0 === o.friends.length ? F("div", { class: "chat-empty-friends", children: "No friends yet. Add someone above." }) : o.friends.map(e => { const t = o.threads[e.id] ?? [], n = t[t.length - 1]; return F("button", { type: "button", class: "chat-friend" + (o.activeId === e.id ? " is-active" : ""), onClick: () => o.setActiveId(e.id), children: [F(yc, { user: e }), F("span", { class: "chat-friend-meta", children: [F("span", { class: "chat-friend-name", children: e.username }), F("span", { class: "chat-friend-last", children: n ? "media" === n.kind ? "📎 Attachment" : n.text : e.pub ? "Say hi" : "Not on chat yet" })] })] }, e.id); })] })] }), F("section", { class: "chat-main", children: null === m ? F("div", { class: "chat-center chat-main-empty", children: F(xn, { icon: F(wn, { size: 40 }), title: "Pick a conversation", description: "Choose a friend to start messaging. Everything is end-to-end encrypted." }) }) : F(y, { children: [F("header", { class: "chat-thread-head", children: [F(yc, { user: m }), F("div", { class: "chat-thread-title", children: m.username }), F("button", { type: "button", class: "chat-unfriend", onClick: () => { o.unfriend(m.id); }, "aria-label": "Remove friend", children: F(yn, { size: 16 }) })] }), F("div", { class: "chat-thread", ref: g, children: [m.pub ? null : F("div", { class: "chat-notice", children: [m.username, " hasn't opened chat yet - they'll get your messages once they do."] }), v.map(e => F(Bc, { message: e, resolve: o.resolveMedia }, `${e.from}:${e.id}`))] }), F("div", { class: "chat-composer", children: [F("input", { ref: h, type: "file", hidden: !0, onChange: C, accept: "image/*,video/*" }), F("button", { type: "button", class: "chat-attach", onClick: () => h.current?.click(), "aria-label": "Attach", children: F(Cn, { size: 18 }) }), F("textarea", { class: "chat-input", rows: 1, placeholder: `Message ${m.username}…`, value: d, onInput: e => u(e.target.value), onKeyDown: e => { const t = e; "Enter" !== t.key || t.shiftKey || (t.preventDefault(), E()); } }), F(Sn, { variant: "primary", size: "sm", onClick: E, disabled: "" === d.trim(), children: "Send" })] })] }) }), null !== p ? F("div", { class: "chat-clip-picker", children: F("div", { class: "chat-clip-card", children: [F("div", { class: "chat-clip-title", children: "Send clip to…" }), F("div", { class: "chat-clip-list", children: 0 === o.friends.length ? F("div", { class: "chat-empty-friends", children: "Add a friend first." }) : o.friends.map(e => F("button", { type: "button", class: "chat-clip-friend", onClick: () => b(e.id), children: [F(yc, { user: e, size: 28 }), F("span", { children: e.username })] }, e.id)) }), F("button", { type: "button", class: "chat-clip-cancel", onClick: () => f(null), children: "Cancel" })] }) }) : null] } : { class: "chat-surface chat-center", children: F(xn, { icon: F(wn, { size: 40 }), title: "Chat isn't available in this build", description: "Chat needs the arctic backend. Use the hosted arctic to message friends." }) }); }
+    return; const e = d.trim(); "" !== e && (u(""), o.sendText(o.activeId, e)); }, [o, d]), C = ue(e => { const t = e.target, n = t.files?.[0]; n && o.activeId && o.sendMedia(o.activeId, n), t.value = ""; }, [o]), b = ue(e => { p && (o.sendMedia(e, p), o.setActiveId(e)), f(null); }, [o, p]); return F("div", e ? "loading" === t ? { class: "chat-surface chat-center", children: F(In, { label: "Loading…" }) } : "authed" !== t || null === n ? { class: "chat-surface chat-center", children: F(nc, { title: "Sign in to chat", subtitle: "Your messages are end-to-end encrypted. Only you and your friend hold the keys." }) } : { class: "chat-surface", children: [F("aside", { class: "chat-sidebar", children: [F("header", { class: "chat-me", children: [F(yc, { user: n }), F("div", { class: "chat-me-name", children: n.username }), F("button", { type: "button", class: "chat-logout", onClick: () => { r(); }, children: "Sign out" })] }), F("div", { class: "chat-add", children: [F(Pn, { placeholder: "Add friend by username", value: i, onInput: e => a(e.target.value), onKeyDown: e => { "Enter" === e.key && w(); }, trailing: F("button", { type: "button", class: "chat-add-btn", onClick: () => { w(); }, disabled: s, "aria-label": "Send request", children: F(Cn, { size: 16 }) }) }), "" !== A ? F("div", { class: "chat-add-note", children: A }) : null] }), o.incoming.length > 0 ? F("div", { class: "chat-section", children: [F("div", { class: "chat-section-title", children: "Requests" }), o.incoming.map(e => F("div", { class: "chat-request", children: [F(yc, { user: e.user, size: 28 }), F("span", { class: "chat-request-name", children: e.user.username }), F("button", { type: "button", class: "chat-req-accept", onClick: () => { o.accept(e.id); }, "aria-label": "Accept", children: F(Bn, { size: 15 }) }), F("button", { type: "button", class: "chat-req-decline", onClick: () => { o.decline(e.id); }, "aria-label": "Decline", children: F(bn, { size: 15 }) })] }, e.id))] }) : null, F("div", { class: "chat-section chat-friends", children: [F("div", { class: "chat-section-title", children: "Friends" }), 0 === o.friends.length ? F("div", { class: "chat-empty-friends", children: "No friends yet. Add someone above." }) : o.friends.map(e => { const t = o.threads[e.id] ?? [], n = t[t.length - 1]; return F("button", { type: "button", class: "chat-friend" + (o.activeId === e.id ? " is-active" : ""), onClick: () => o.setActiveId(e.id), children: [F(yc, { user: e }), F("span", { class: "chat-friend-meta", children: [F("span", { class: "chat-friend-name", children: e.username }), F("span", { class: "chat-friend-last", children: n ? "media" === n.kind ? "📎 Attachment" : n.text : e.pub ? "Say hi" : "Not on chat yet" })] })] }, e.id); })] })] }), F("section", { class: "chat-main", children: null === m ? F("div", { class: "chat-center chat-main-empty", children: F(xn, { icon: F(wn, { size: 40 }), title: "Pick a conversation", description: "Choose a friend to start messaging. Everything is end-to-end encrypted." }) }) : F(y, { children: [F("header", { class: "chat-thread-head", children: [F(yc, { user: m }), F("div", { class: "chat-thread-title", children: m.username }), F("button", { type: "button", class: "chat-unfriend", onClick: () => { o.unfriend(m.id); }, "aria-label": "Remove friend", children: F(yn, { size: 16 }) })] }), F("div", { class: "chat-thread", ref: g, children: [m.pub ? null : F("div", { class: "chat-notice", children: [m.username, " hasn't opened chat yet — they'll get your messages once they do."] }), v.map(e => F(Bc, { message: e, resolve: o.resolveMedia }, `${e.from}:${e.id}`))] }), F("div", { class: "chat-composer", children: [F("input", { ref: h, type: "file", hidden: !0, onChange: C, accept: "image/*,video/*" }), F("button", { type: "button", class: "chat-attach", onClick: () => h.current?.click(), "aria-label": "Attach", children: F(Cn, { size: 18 }) }), F("textarea", { class: "chat-input", rows: 1, placeholder: `Message ${m.username}…`, value: d, onInput: e => u(e.target.value), onKeyDown: e => { const t = e; "Enter" !== t.key || t.shiftKey || (t.preventDefault(), E()); } }), F(Sn, { variant: "primary", size: "sm", onClick: E, disabled: "" === d.trim(), children: "Send" })] })] }) }), null !== p ? F("div", { class: "chat-clip-picker", children: F("div", { class: "chat-clip-card", children: [F("div", { class: "chat-clip-title", children: "Send clip to…" }), F("div", { class: "chat-clip-list", children: 0 === o.friends.length ? F("div", { class: "chat-empty-friends", children: "Add a friend first." }) : o.friends.map(e => F("button", { type: "button", class: "chat-clip-friend", onClick: () => b(e.id), children: [F(yc, { user: e, size: 28 }), F("span", { children: e.username })] }, e.id)) }), F("button", { type: "button", class: "chat-clip-cancel", onClick: () => f(null), children: "Cancel" })] }) }) : null] } : { class: "chat-surface chat-center", children: F(xn, { icon: F(wn, { size: 40 }), title: "Chat isn't available in this build", description: "Chat needs the arctic backend. Use the hosted arctic to message friends." }) }); }
 function kc() { return F("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "none", "aria-hidden": "true", children: [F("circle", { cx: "12", cy: "12", r: "8", stroke: "currentColor", "stroke-width": "1.6" }), F("circle", { cx: "12", cy: "12", r: "3", fill: "currentColor" })] }); }
 function Ic({ iframeRef: e, active: t, playName: n }) { const { supported: r, capture: o } = function (e, t) { const [n, r] = se(!1), o = le([]), i = le(null), a = le(null); return ce(() => { if (!t || Bt)
     return; let n = !1, s = 0, c = !1; const A = () => { if (n || c)
@@ -3146,7 +3097,7 @@ catch { } a.current?.getTracks().forEach(e => e.stop()), i.current = null, a.cur
         await new Promise(e => window.setTimeout(e, 150));
     } const t = o.current; return 0 === t.length ? null : new Blob(t.map(e => e.data), { type: e?.mimeType || "video/webm" }); }, []) }; }(e, t), [i, a] = se(null), [s, c] = se(null), [A, l] = se(!1), [d, u] = se(""), g = le(null); ce(() => { if (null === i)
     return void c(null); const e = URL.createObjectURL(i); return c(e), () => URL.revokeObjectURL(e); }, [i]); const h = ue(() => `arctic-${n.replace(/[^a-z0-9]+/gi, "-").toLowerCase().replace(/^-+|-+$/g, "") || "clip"}.webm`, [n]), p = ue(async () => { if (A)
-    return; l(!0), u(""); const e = await o(); l(!1), null !== e && 0 !== e.size ? a(e) : u("Nothing to clip yet - play for a few seconds."); }, [A, o]), f = ue(() => { if (null === i)
+    return; l(!0), u(""); const e = await o(); l(!1), null !== e && 0 !== e.size ? a(e) : u("Nothing to clip yet — play for a few seconds."); }, [A, o]), f = ue(() => { if (null === i)
     return; null !== g.current && URL.revokeObjectURL(g.current); const e = URL.createObjectURL(i); g.current = e; const t = document.createElement("a"); t.href = e, t.download = h(), document.body.append(t), t.click(), t.remove(), a(null); }, [i, h]), m = ue(() => { null !== i && (!function (e) { Cc = e; for (const t of bc)
     t(e); }(new File([i], h(), { type: i.type || "video/webm" })), a(null), et("chat")); }, [i, h]); return r ? F(y, { children: [F("button", { type: "button", class: "play-surface-btn clip-btn", onClick: () => { p(); }, "aria-label": "Clip the last 30 seconds", disabled: A, children: [F(kc, {}), F("span", { class: "clip-btn-label", children: "Clip 30s" })] }), "" !== d ? F("div", { class: "clip-toast", children: d }) : null, null !== i ? F("div", { class: "clip-sheet", role: "dialog", "aria-label": "Clip ready", children: F("div", { class: "clip-sheet-card", children: [F("div", { class: "clip-sheet-title", children: "Clip ready" }), F("div", { class: "clip-sheet-sub", children: ["Last 30 seconds of ", n] }), F("video", { class: "clip-preview", src: s ?? void 0, controls: !0, autoPlay: !0, muted: !0, loop: !0 }), F("div", { class: "clip-sheet-actions", children: [F("button", { type: "button", class: "clip-action clip-action-primary", onClick: m, children: "Send to chat" }), F("button", { type: "button", class: "clip-action", onClick: f, children: "Save" }), F("button", { type: "button", class: "clip-action clip-action-ghost", onClick: () => a(null), children: "Cancel" })] })] }) }) : null] }) : null; }
 const Sc = "allow-scripts allow-same-origin allow-pointer-lock allow-forms";
@@ -3458,7 +3409,7 @@ catch { } }(t); }, [t]), ce(() => { const e = l.current; null !== e && (e.scroll
                         c += 1, yield e;
                     if (c > 0)
                         return;
-                    i = new Error("No response - the model returned nothing.");
+                    i = new Error("No response — the model returned nothing.");
                 }
                 catch (s) {
                     if (i = s, o())
@@ -3475,7 +3426,7 @@ catch { } }(t); }, [t]), ce(() => { const e = l.current; null !== e && (e.scroll
         const t = p, r = f;
         n(e => e.map(e => e.id === d ? { ...e, content: t, reasoning: r } : e));
     }
-    "" === p && "" === f && (n(e => e.filter(e => e.id !== d)), c("No response - the model returned nothing."));
+    "" === p && "" === f && (n(e => e.filter(e => e.id !== d)), c("No response — the model returned nothing."));
 }
 catch (m) {
     const e = m.message, t = "" !== p || "" !== f;
@@ -3676,7 +3627,7 @@ function vl({ value: e, onChange: t }) { const n = le(null), [r, o] = se(""), [i
                             } var t; }(n); i.ok && void 0 !== i.dataUrl ? t({ kind: "upload", value: i.dataUrl }) : o(i.error ?? "Upload failed"); } }), F(dl, { variant: "ghost", onClick: () => n.current?.click(), children: [F(XA, { width: 16, height: 16 }), "Choose image"] })] }) : null, "built-in" === e.kind ? F("span", { class: "bg-note", children: "The default Arctic gradient follows your palette." }) : null] }), "upload" === e.kind ? F("span", { class: "bg-note", children: "Images are downscaled and stored locally. Maximum 2 MB." }) : null, "" !== r ? F("span", { class: "bg-error", children: r }) : null, F("button", { type: "button", class: "bg-gallery-toggle", "aria-expanded": i, onClick: () => a(e => !e), children: i ? "Hide wallpaper gallery" : "Browse wallpaper gallery" }), i ? F(fl, { selected: "url" === e.kind ? e.value : "", onPick: e => { o(""), t({ kind: "url", value: e }); } }) : null] }); var s; }
 function wl(e, t) { const n = TA.find(t => t.id === e.appearance.palette) ?? TA[0]; return "accent" === t ? e.appearance.accent : n.swatch.bg; }
 function El({ collection: e, current: t, onApply: n }) { const [r, o] = se(() => e.get()), [i, a] = se(""), s = () => { const n = i.trim(); "" !== n && (o(e.add({ id: "undefined" != typeof crypto && "randomUUID" in crypto ? crypto.randomUUID() : `preset-${Date.now()}-${Math.floor(1e6 * Math.random())}`, name: n, appearance: structuredClone(t), createdAt: Date.now() })), a("")); }; return F("div", { class: "preset-list", children: [0 === r.length ? F("p", { class: "preset-empty", children: "No saved looks yet. Save your current appearance below." }) : r.map(t => F("div", { class: "preset-item", children: [F("span", { class: "preset-item__swatch", style: { background: wl(t, "bg") }, children: F("span", { class: "preset-item__accent", style: { background: wl(t, "accent") } }) }), F("span", { class: "preset-item__name", children: t.name }), F(dl, { size: "sm", variant: "ghost", onClick: () => n(structuredClone(t.appearance)), children: "Apply" }), F(dl, { size: "sm", variant: "subtle", iconOnly: !0, label: `Delete ${t.name}`, onClick: () => { return n = t.id, o(e.remove(n)); var n; }, children: F(LA, { width: 16, height: 16 }) })] }, t.id)), F("div", { class: "preset-save", children: [F(ll, { label: "Preset name", block: !0, placeholder: "Name this look", value: i, onChange: a, onKeyDown: e => { "Enter" === e.key && s(); } }), F(dl, { variant: "primary", onClick: s, disabled: "" === i.trim(), children: "Save" })] })] }); }
-function Cl() { const e = IA(), t = kA(), n = ii(), r = e.appearance, o = e => t.update(t => ({ ...t, appearance: { ...t.appearance, ...e } })); return F(y, { children: [F(SA, { title: "Theme", children: [F(PA, { id: "appearance-palette", label: "Palette", description: "The overall light or dark look. Picking a palette also sets its signature accent color.", stack: !0, children: F(ZA, { value: r.palette, onChange: e => { const t = TA.find(t => t.id === e); o(t ? { palette: e, accent: t.swatch.accent } : { palette: e }); } }) }), F(PA, { id: "appearance-accent", label: "Accent color", description: "Sets the highlight hue used across the interface. Contrast is checked as you adjust it.", stack: !0, children: F(sl, { value: r.accent, palette: r.palette, onChange: e => o({ accent: e }) }) })] }), F(SA, { title: "Performance", children: F(PA, { id: "appearance-performance", label: "Performance mode", description: "Turns off the snow scene, animated GIF backgrounds, and other effects, and keeps fewer browser tabs live at once - makes Arctic lighter and easier to run on slower devices.", children: F(zA, { label: "Performance mode", checked: r.performanceMode, onChange: e => o({ performanceMode: e }) }) }) }), F(SA, { title: "Layout", children: [F(PA, { id: "appearance-density", label: "Density", description: "Spacing throughout the interface.", children: F(xA, { label: "Density", value: r.density, options: [{ value: "comfortable", label: "Comfortable" }, { value: "compact", label: "Compact" }], onChange: e => o({ density: e }) }) }), F(PA, { id: "appearance-clock", label: "Clock format", description: "How the time is shown.", children: F(xA, { label: "Clock format", value: r.clock, options: [{ value: "12", label: "12-hour" }, { value: "24", label: "24-hour" }], onChange: e => o({ clock: e }) }) }), F(PA, { id: "appearance-reduced", label: "Reduced effects", description: "Turn off motion and non-essential visual effects. Also follows your system setting.", children: F(zA, { label: "Reduced effects", checked: r.reducedEffects, onChange: e => o({ reducedEffects: e }) }) })] }), F(SA, { title: "Snow scene", description: r.performanceMode ? "Snow is off while Performance mode is on." : void 0, children: F(PA, { id: "appearance-snow", label: "Snow intensity", description: "The ambient snowfall on the home screen. Flurry uses a little more energy.", stack: !0, children: F("div", { style: { display: "flex", flexWrap: "wrap", alignItems: "center", gap: "var(--space-4)" }, children: [F(xA, { label: "Snow intensity", value: r.snow, options: [{ value: "off", label: "Off" }, { value: "gentle", label: "Gentle" }, { value: "flurry", label: "Flurry" }], onChange: e => o({ snow: e }) }), F(Al, { level: r.snow })] }) }) }), F(SA, { title: "Background", children: F(PA, { id: "appearance-background", label: "Home background", description: "Use the built-in gradient, a solid color, a remote image, or your own upload.", stack: !0, children: F(vl, { value: r.background, onChange: e => o({ background: e }) }) }) }), F(SA, { title: "Saved looks", description: "Store the current appearance and switch back anytime.", children: F(PA, { id: "appearance-presets", label: "Appearance presets", stack: !0, children: F(El, { collection: n.appearancePresets, current: r, onApply: e => o(e) }) }) })] }); }
+function Cl() { const e = IA(), t = kA(), n = ii(), r = e.appearance, o = e => t.update(t => ({ ...t, appearance: { ...t.appearance, ...e } })); return F(y, { children: [F(SA, { title: "Theme", children: [F(PA, { id: "appearance-palette", label: "Palette", description: "The overall light or dark look. Picking a palette also sets its signature accent color.", stack: !0, children: F(ZA, { value: r.palette, onChange: e => { const t = TA.find(t => t.id === e); o(t ? { palette: e, accent: t.swatch.accent } : { palette: e }); } }) }), F(PA, { id: "appearance-accent", label: "Accent color", description: "Sets the highlight hue used across the interface. Contrast is checked as you adjust it.", stack: !0, children: F(sl, { value: r.accent, palette: r.palette, onChange: e => o({ accent: e }) }) })] }), F(SA, { title: "Performance", children: F(PA, { id: "appearance-performance", label: "Performance mode", description: "Turns off the snow scene, animated GIF backgrounds, and other effects, and keeps fewer browser tabs live at once — makes Arctic lighter and easier to run on slower devices.", children: F(zA, { label: "Performance mode", checked: r.performanceMode, onChange: e => o({ performanceMode: e }) }) }) }), F(SA, { title: "Layout", children: [F(PA, { id: "appearance-density", label: "Density", description: "Spacing throughout the interface.", children: F(xA, { label: "Density", value: r.density, options: [{ value: "comfortable", label: "Comfortable" }, { value: "compact", label: "Compact" }], onChange: e => o({ density: e }) }) }), F(PA, { id: "appearance-clock", label: "Clock format", description: "How the time is shown.", children: F(xA, { label: "Clock format", value: r.clock, options: [{ value: "12", label: "12-hour" }, { value: "24", label: "24-hour" }], onChange: e => o({ clock: e }) }) }), F(PA, { id: "appearance-reduced", label: "Reduced effects", description: "Turn off motion and non-essential visual effects. Also follows your system setting.", children: F(zA, { label: "Reduced effects", checked: r.reducedEffects, onChange: e => o({ reducedEffects: e }) }) })] }), F(SA, { title: "Snow scene", description: r.performanceMode ? "Snow is off while Performance mode is on." : void 0, children: F(PA, { id: "appearance-snow", label: "Snow intensity", description: "The ambient snowfall on the home screen. Flurry uses a little more energy.", stack: !0, children: F("div", { style: { display: "flex", flexWrap: "wrap", alignItems: "center", gap: "var(--space-4)" }, children: [F(xA, { label: "Snow intensity", value: r.snow, options: [{ value: "off", label: "Off" }, { value: "gentle", label: "Gentle" }, { value: "flurry", label: "Flurry" }], onChange: e => o({ snow: e }) }), F(Al, { level: r.snow })] }) }) }), F(SA, { title: "Background", children: F(PA, { id: "appearance-background", label: "Home background", description: "Use the built-in gradient, a solid color, a remote image, or your own upload.", stack: !0, children: F(vl, { value: r.background, onChange: e => o({ background: e }) }) }) }), F(SA, { title: "Saved looks", description: "Store the current appearance and switch back anytime.", children: F(PA, { id: "appearance-presets", label: "Appearance presets", stack: !0, children: F(El, { collection: n.appearancePresets, current: r, onApply: e => o(e) }) }) })] }); }
 function bl({ value: e, options: t, onChange: n, label: r, id: o, block: i }) { return F("select", { id: o, class: i ? "ac-field ac-field--select ac-field--block" : "ac-field ac-field--select", "aria-label": r, value: e, onChange: e => n(e.currentTarget.value), children: t.map(e => F("option", { value: e.value, children: e.label }, e.value)) }); }
 function yl() { const e = IA(), t = kA(), n = e.browser, r = e => t.update(t => ({ ...t, browser: { ...t.browser, ...e } })); return F(y, { children: [F(SA, { title: "Search", children: [F(PA, { id: "browser-search-engine", label: "Search engine", description: "Used for address-bar searches.", controlId: "browser-search-engine-control", children: F(bl, { id: "browser-search-engine-control", label: "Search engine", value: n.searchEngine, options: jA.map(e => ({ value: e.id, label: e.name })), onChange: e => r({ searchEngine: e }) }) }), F(PA, { id: "browser-search-newtab", label: "Open searches in a new tab", description: "Keep the current page and open results alongside it.", children: F(zA, { label: "Open searches in a new tab", checked: n.searchOpensNewTab, onChange: e => r({ searchOpensNewTab: e }) }) })] }), F(SA, { title: "Layout", children: [F(PA, { id: "browser-bookmarks-bar", label: "Bookmarks bar", description: "Show saved bookmarks under the address bar.", children: F(zA, { label: "Bookmarks bar", checked: n.showBookmarksBar, onChange: e => r({ showBookmarksBar: e }) }) }), F(PA, { id: "browser-startup", label: "On startup", description: "What opens when Arctic launches.", stack: !0, children: F("div", { style: { display: "flex", flexWrap: "wrap", gap: "var(--space-3)", alignItems: "center" }, children: [F(xA, { label: "On startup", value: n.startup, options: [{ value: "home", label: "Arctic home" }, { value: "newtab", label: "New tab" }, { value: "url", label: "Specific URL" }], onChange: e => r({ startup: e }) }), "url" === n.startup ? F("div", { class: "startup-url", children: F(ll, { label: "Startup URL", type: "url", block: !0, placeholder: "https://example.com", value: n.startupUrl, onChange: e => r({ startupUrl: e }) }) }) : null] }) })] }), F(SA, { title: "Performance", children: F(PA, { id: "browser-frame-limit", label: "Live frame limit", description: "How many tabs stay fully loaded at once. Higher keeps more tabs instant to switch to but uses more memory; extra tabs suspend and reload when reopened.", advanced: !0, stack: !0, children: F("div", { class: "frame-limit", children: [F("div", { class: "frame-limit__head", children: F("span", { class: "frame-limit__value", children: [n.liveFrameLimit, " ", F("span", { children: "live tabs" })] }) }), F(il, { label: "Live frame limit", min: 2, max: 8, value: n.liveFrameLimit, onChange: e => r({ liveFrameLimit: e }) }), F("div", { class: "frame-limit__scale", children: [F("span", { children: [2, " · lighter"] }), F("span", { children: [8, " · snappier"] })] })] }) }) })] }); }
 function Bl(e) { const t = e.trim().toLowerCase(); if ("" === t)
@@ -3691,7 +3642,7 @@ function Ql(e) { const t = UA.find(t => t.id === e); return t ? `${t.name} ${t.t
 function kl({ collection: e }) { const [t, n] = se(() => e.get()), [r, o] = se(""), [i, a] = se("scramjet2"), s = () => { const t = Bl(r); "" !== t && (n(e.add({ host: t, backend: i, updatedAt: Date.now() })), o("")); }; return F("div", { class: "host-prefs", children: [0 === t.length ? F("p", { class: "host-empty", children: "No per-host rules. Sites use your default backend." }) : t.map(t => F("div", { class: "host-item", children: [F("span", { class: "host-item__host", children: t.host }), F("span", { class: "host-item__backend", children: Ql(t.backend) }), F(dl, { size: "sm", variant: "subtle", iconOnly: !0, label: `Remove ${t.host}`, onClick: () => { return r = t.host, n(e.remove(r)); var r; }, children: F(LA, { width: 16, height: 16 }) })] }, t.host)), F("div", { class: "host-add", children: [F(ll, { label: "Host", placeholder: "example.com", value: r, onChange: o, onKeyDown: e => { "Enter" === e.key && s(); } }), F(bl, { label: "Backend for host", value: i, options: UA.map(e => ({ value: e.id, label: `${e.name} ${e.tag}` })), onChange: a }), F(dl, { variant: "ghost", onClick: s, disabled: "" === Bl(r), children: "Add" })] })] }); }
 function Il() { const e = IA(), t = kA(), n = ii(), r = e.relay, o = e => t.update(t => ({ ...t, relay: { ...t.relay, ...e } })); return F(y, { children: [F(SA, { title: "Engine", children: [F(PA, { id: "relay-backend", label: "Default backend", description: "The relay engine Arctic tries first for each site.", stack: !0, children: F("div", { class: "backend-grid", role: "group", "aria-label": "Default backend", children: UA.map(e => F("button", { type: "button", class: "backend-card", "aria-pressed": r.defaultBackend === e.id, onClick: () => o({ defaultBackend: e.id }), children: [F("div", { class: "backend-card__head", children: [F("span", { class: "backend-card__name", children: e.name }), F("span", { class: "backend-card__tag", children: e.tag })] }), F("p", { class: "backend-card__desc", children: e.description })] }, e.id)) }) }), F(PA, { id: "relay-remember-fallback", label: "Remember successful fallback", description: "If Arctic fails over to the other backend for a site, keep using it next time.", children: F(zA, { label: "Remember successful fallback", checked: r.rememberFallback, onChange: e => o({ rememberFallback: e }) }) })] }), null, F(SA, { title: "Filtering", children: [F(PA, { id: "relay-block-ads", label: "Block ads and trackers", description: "Filter common advertising and tracking requests.", children: F(zA, { label: "Block ads and trackers", checked: r.blockAds, onChange: e => o({ blockAds: e }) }) }), F(PA, { id: "relay-block-adult", label: "Block adult content", description: "Request server-supported filtering of adult content.", children: F(zA, { label: "Block adult content", checked: r.blockAdult, onChange: e => o({ blockAdult: e }) }) })] }), F(SA, { title: "Per-host backend", description: "Force a specific engine for individual sites that need it.", children: F(PA, { id: "relay-host-preferences", label: "Host rules", advanced: !0, stack: !0, children: F(kl, { collection: n.backendPreferences }) }) })] }); }
 function Sl({ title: e, children: t, actions: n, onClose: r }) { const o = le(null), i = he(); return ce(() => { const e = document.activeElement; o.current?.focus(); const t = e => { "Escape" === e.key && (e.stopPropagation(), r()); }; return window.addEventListener("keydown", t, !0), () => { window.removeEventListener("keydown", t, !0), e instanceof HTMLElement && e.focus(); }; }, [r]), F("div", { class: "ac-dialog-backdrop", onClick: e => { e.target === e.currentTarget && r(); }, children: F("div", { ref: o, class: "ac-dialog", role: "dialog", "aria-modal": "true", "aria-labelledby": i, tabIndex: -1, children: [F("h2", { class: "ac-dialog__title", id: i, children: e }), F("div", { class: "ac-dialog__body", children: t }), F("div", { class: "ac-dialog__actions", children: n })] }) }); }
-function Ml({ value: e, disabled: t, onChange: n }) { const r = !function (e) { return RA.some(t => t.id === e); }(e), [o, i] = se(r ? e : "My Notes"); return t ? F("p", { class: "cloak-note", children: "A random disguise is chosen each session while randomization is on." }) : F("div", { class: "cloak-picker", children: [F("div", { class: "cloak-grid", role: "group", "aria-label": "Disguise preset", children: [RA.map(t => F("button", { type: "button", class: "cloak-tab", "aria-pressed": e === t.id, title: `${t.id} - “${t.title}”`, onClick: () => n(t.id), children: [F("img", { class: "cloak-tab__favicon", src: t.favicon, alt: "", width: 18, height: 18 }), F("span", { class: "cloak-tab__title", children: t.title })] }, t.id)), F("button", { type: "button", class: "cloak-tab", "aria-pressed": r, onClick: () => { n("" === o.trim() ? "My Notes" : o); }, children: [F("img", { class: "cloak-tab__favicon", src: (a = o, s = a.trim().slice(0, 1).toUpperCase() || "A", `data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32'><rect width='32' height='32' rx='8' fill='#5a7285'/>${"" === s ? "<circle cx='16' cy='16' r='4' fill='#ffffff'/>" : `<text x='16' y='23' font-family='Inter,system-ui,sans-serif' font-size='19' font-weight='700' fill='#ffffff' text-anchor='middle'>${s}</text>`}</svg>`)}`), alt: "", width: 18, height: 18 }), F("span", { class: "cloak-tab__title", children: "Custom…" })] })] }), r ? F("div", { class: "cloak-custom", children: F(ll, { label: "Custom tab title", block: !0, placeholder: "Tab title to show", value: o, onChange: e => { i(e), n(e); } }) }) : F("p", { class: "cloak-note", children: ["Shows the title “", (c = e, RA.find(e => e.id === c))?.title, "” with a matching favicon when the tab loses focus."] })] }); var a, s, c; }
+function Ml({ value: e, disabled: t, onChange: n }) { const r = !function (e) { return RA.some(t => t.id === e); }(e), [o, i] = se(r ? e : "My Notes"); return t ? F("p", { class: "cloak-note", children: "A random disguise is chosen each session while randomization is on." }) : F("div", { class: "cloak-picker", children: [F("div", { class: "cloak-grid", role: "group", "aria-label": "Disguise preset", children: [RA.map(t => F("button", { type: "button", class: "cloak-tab", "aria-pressed": e === t.id, title: `${t.id} — “${t.title}”`, onClick: () => n(t.id), children: [F("img", { class: "cloak-tab__favicon", src: t.favicon, alt: "", width: 18, height: 18 }), F("span", { class: "cloak-tab__title", children: t.title })] }, t.id)), F("button", { type: "button", class: "cloak-tab", "aria-pressed": r, onClick: () => { n("" === o.trim() ? "My Notes" : o); }, children: [F("img", { class: "cloak-tab__favicon", src: (a = o, s = a.trim().slice(0, 1).toUpperCase() || "A", `data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32'><rect width='32' height='32' rx='8' fill='#5a7285'/>${"" === s ? "<circle cx='16' cy='16' r='4' fill='#ffffff'/>" : `<text x='16' y='23' font-family='Inter,system-ui,sans-serif' font-size='19' font-weight='700' fill='#ffffff' text-anchor='middle'>${s}</text>`}</svg>`)}`), alt: "", width: 18, height: 18 }), F("span", { class: "cloak-tab__title", children: "Custom…" })] })] }), r ? F("div", { class: "cloak-custom", children: F(ll, { label: "Custom tab title", block: !0, placeholder: "Tab title to show", value: o, onChange: e => { i(e), n(e); } }) }) : F("p", { class: "cloak-note", children: ["Shows the title “", (c = e, RA.find(e => e.id === c))?.title, "” with a matching favicon when the tab loses focus."] })] }); var a, s, c; }
 const Pl = new Set(["Shift", "Control", "Alt", "Meta", "CapsLock"]);
 function xl({ value: e, onChange: t }) { const [n, r] = se(!1); return ce(() => { if (!n)
     return; const e = e => { e.preventDefault(), e.stopPropagation(), Pl.has(e.key) || ("Escape" !== e.key ? (t(e.key), r(!1)) : r(!1)); }; return window.addEventListener("keydown", e, !0), () => window.removeEventListener("keydown", e, !0); }, [n, t]), F("div", { class: n ? "key-capture key-capture--listening" : "key-capture", children: [F("kbd", { class: "key-badge", children: n ? "Press a key…" : (o = e, " " === o ? "Space" : "`" === o ? "` (Backquote)" : 1 === o.length ? o.toUpperCase() : o) }), F(dl, n ? { variant: "subtle", size: "sm", onClick: () => r(!1), children: "Cancel" } : { variant: "ghost", size: "sm", onClick: () => r(!0), children: "Change key" })] }); var o; }
@@ -3703,7 +3654,7 @@ function Tl(e) { try {
 catch {
     return !1;
 } }
-function Jl() { const e = IA(), t = kA(), n = e.privacy, [r, o] = se(!1), [i, a] = se(n.redirectOnBlurUrl), [s, c] = se(n.cloakRedirectCustomUrl); ce(() => { a(n.redirectOnBlurUrl); }, [n.redirectOnBlurUrl]), ce(() => { c(n.cloakRedirectCustomUrl); }, [n.cloakRedirectCustomUrl]); const A = i.trim(), l = !Tl(A), d = s.trim(), u = !Tl(d), g = e => t.update(t => ({ ...t, privacy: { ...t.privacy, ...e } })); return F(y, { children: [F(SA, { title: "Tab disguise", children: [F(PA, { id: "privacy-cloak-blur", label: "Disguise when I switch away", description: "Change the tab title and favicon whenever this tab loses focus, then restore them when you return.", children: F(zA, { label: "Disguise when I switch away", checked: n.cloakOnBlur, onChange: e => g({ cloakOnBlur: e }) }) }), F(PA, { id: "privacy-randomize", label: "Randomize disguise", description: "Pick a different disguise automatically each session.", children: F(zA, { label: "Randomize disguise", checked: n.randomizePreset, onChange: e => g({ randomizePreset: e }) }) }), F(PA, { id: "privacy-cloak-preset", label: "Disguise", description: "Choose the title and favicon to display.", stack: !0, children: F(Ml, { value: n.cloakPreset, disabled: n.randomizePreset, onChange: e => g({ cloakPreset: e }) }) })] }), F(SA, { title: "Open cloaked", description: "Applies to the “Open cloaked” buttons on Home and to Autocloak below.", children: [F(PA, { id: "privacy-cloak-redirect-site", label: "Redirect this tab to", description: "When you open a cloaked tab, this tab immediately leaves Arctic and loads the site below.", stack: !0, children: [F(bl, { id: "privacy-cloak-redirect-site-control", label: "Redirect this tab to", value: n.cloakRedirectSite, options: Be.map(e => ({ value: e.id, label: e.label })), onChange: e => g({ cloakRedirectSite: e }) }), n.cloakRedirectSite === ye ? F("div", { class: "redirect-url", children: F(ll, { id: "privacy-cloak-redirect-url", label: "Custom redirect URL", type: "url", block: !0, placeholder: "https://example.com/", value: s, invalid: "" !== d && u, onChange: e => { c(e), Tl(e.trim()) && g({ cloakRedirectCustomUrl: e.trim() }); } }) }) : null] }), F(PA, { id: "privacy-autocloak", label: "Autocloak on open", description: "Automatically open a cloaked tab and redirect this tab the moment Arctic loads. Your browser's pop-up blocker may need to allow this site first.", stack: !0, children: F("div", { class: "redirect-stack", children: [F("div", { class: "redirect-row", children: [F("span", { children: "Enable autocloak" }), F(zA, { label: "Autocloak on open", checked: n.autocloak, onChange: e => g({ autocloak: e }) })] }), F(bl, { id: "privacy-autocloak-scheme", label: "Autocloak method", value: n.autocloakScheme, options: zl, onChange: e => g({ autocloakScheme: e }) })] }) })] }), F(SA, { title: "Screen privacy", children: [F(PA, { id: "privacy-dim", label: "Privacy overlay on blur", description: "Cover the page with a black overlay while the tab is not focused.", children: F(zA, { label: "Privacy overlay on blur", checked: n.dimOnBlur, onChange: e => g({ dimOnBlur: e }) }) }), F(PA, { id: "privacy-redirect", label: "Redirect on blur", description: "Leave the current page entirely when the tab loses focus.", advanced: !0, stack: !0, children: F("div", { class: "redirect-stack", children: [F("div", { class: "redirect-row", children: [F("span", { children: "Enable redirect on blur" }), F(zA, { label: "Redirect on blur", checked: n.redirectOnBlur, onChange: e => g({ redirectOnBlur: e }) })] }), F("div", { class: "redirect-url", children: F(ll, { id: "privacy-redirect-url", label: "Redirect destination", type: "url", block: !0, placeholder: "https://www.ixl.com/", value: i, invalid: "" !== A && l, onChange: e => { a(e), Tl(e.trim()) && g({ redirectOnBlurUrl: e.trim() }); } }) }), F("div", { class: "privacy-warn", children: [F("span", { class: "privacy-warn__icon", children: F(YA, { width: 18, height: 18 }) }), F("span", { children: "This navigates away from whatever you are viewing to the destination above. Anything unsaved on the page is lost. Use the test below to preview it without leaving." })] }), F("div", { children: F(dl, { variant: "ghost", size: "sm", onClick: () => o(!0), children: "Test redirect (safe)" }) })] }) })] }), F(SA, { title: "Panic", children: [F(PA, { id: "privacy-panic", label: "Panic key", description: "Press this key to instantly show a decoy screen without navigating away.", children: F(xl, { value: n.panicKey, onChange: e => g({ panicKey: e }) }) }), F(PA, { id: "privacy-panic-screen", label: "Panic screen", description: "What the decoy shows.", controlId: "privacy-panic-screen-control", children: F(bl, { id: "privacy-panic-screen-control", label: "Panic screen", value: n.panicPreset, options: OA.map(e => ({ value: e.id, label: e.name })), onChange: e => g({ panicPreset: e }) }) })] }), r ? F(Sl, { title: "Redirect test", onClose: () => o(!1), actions: F(dl, { variant: "primary", onClick: () => o(!1), children: "Got it" }), children: [F("p", { children: ["With redirect on blur enabled, switching away from this tab - including opening a cloaked tab - would immediately load ", F("code", { children: n.redirectOnBlurUrl }), " in its place."] }), F("p", { children: "This was only a preview. Nothing navigated and no settings changed." })] }) : null] }); }
+function Jl() { const e = IA(), t = kA(), n = e.privacy, [r, o] = se(!1), [i, a] = se(n.redirectOnBlurUrl), [s, c] = se(n.cloakRedirectCustomUrl); ce(() => { a(n.redirectOnBlurUrl); }, [n.redirectOnBlurUrl]), ce(() => { c(n.cloakRedirectCustomUrl); }, [n.cloakRedirectCustomUrl]); const A = i.trim(), l = !Tl(A), d = s.trim(), u = !Tl(d), g = e => t.update(t => ({ ...t, privacy: { ...t.privacy, ...e } })); return F(y, { children: [F(SA, { title: "Tab disguise", children: [F(PA, { id: "privacy-cloak-blur", label: "Disguise when I switch away", description: "Change the tab title and favicon whenever this tab loses focus, then restore them when you return.", children: F(zA, { label: "Disguise when I switch away", checked: n.cloakOnBlur, onChange: e => g({ cloakOnBlur: e }) }) }), F(PA, { id: "privacy-randomize", label: "Randomize disguise", description: "Pick a different disguise automatically each session.", children: F(zA, { label: "Randomize disguise", checked: n.randomizePreset, onChange: e => g({ randomizePreset: e }) }) }), F(PA, { id: "privacy-cloak-preset", label: "Disguise", description: "Choose the title and favicon to display.", stack: !0, children: F(Ml, { value: n.cloakPreset, disabled: n.randomizePreset, onChange: e => g({ cloakPreset: e }) }) })] }), F(SA, { title: "Open cloaked", description: "Applies to the “Open cloaked” buttons on Home and to Autocloak below.", children: [F(PA, { id: "privacy-cloak-redirect-site", label: "Redirect this tab to", description: "When you open a cloaked tab, this tab immediately leaves Arctic and loads the site below.", stack: !0, children: [F(bl, { id: "privacy-cloak-redirect-site-control", label: "Redirect this tab to", value: n.cloakRedirectSite, options: Be.map(e => ({ value: e.id, label: e.label })), onChange: e => g({ cloakRedirectSite: e }) }), n.cloakRedirectSite === ye ? F("div", { class: "redirect-url", children: F(ll, { id: "privacy-cloak-redirect-url", label: "Custom redirect URL", type: "url", block: !0, placeholder: "https://example.com/", value: s, invalid: "" !== d && u, onChange: e => { c(e), Tl(e.trim()) && g({ cloakRedirectCustomUrl: e.trim() }); } }) }) : null] }), F(PA, { id: "privacy-autocloak", label: "Autocloak on open", description: "Automatically open a cloaked tab and redirect this tab the moment Arctic loads. Your browser's pop-up blocker may need to allow this site first.", stack: !0, children: F("div", { class: "redirect-stack", children: [F("div", { class: "redirect-row", children: [F("span", { children: "Enable autocloak" }), F(zA, { label: "Autocloak on open", checked: n.autocloak, onChange: e => g({ autocloak: e }) })] }), F(bl, { id: "privacy-autocloak-scheme", label: "Autocloak method", value: n.autocloakScheme, options: zl, onChange: e => g({ autocloakScheme: e }) })] }) })] }), F(SA, { title: "Screen privacy", children: [F(PA, { id: "privacy-dim", label: "Privacy overlay on blur", description: "Cover the page with a black overlay while the tab is not focused.", children: F(zA, { label: "Privacy overlay on blur", checked: n.dimOnBlur, onChange: e => g({ dimOnBlur: e }) }) }), F(PA, { id: "privacy-redirect", label: "Redirect on blur", description: "Leave the current page entirely when the tab loses focus.", advanced: !0, stack: !0, children: F("div", { class: "redirect-stack", children: [F("div", { class: "redirect-row", children: [F("span", { children: "Enable redirect on blur" }), F(zA, { label: "Redirect on blur", checked: n.redirectOnBlur, onChange: e => g({ redirectOnBlur: e }) })] }), F("div", { class: "redirect-url", children: F(ll, { id: "privacy-redirect-url", label: "Redirect destination", type: "url", block: !0, placeholder: "https://www.ixl.com/", value: i, invalid: "" !== A && l, onChange: e => { a(e), Tl(e.trim()) && g({ redirectOnBlurUrl: e.trim() }); } }) }), F("div", { class: "privacy-warn", children: [F("span", { class: "privacy-warn__icon", children: F(YA, { width: 18, height: 18 }) }), F("span", { children: "This navigates away from whatever you are viewing to the destination above. Anything unsaved on the page is lost. Use the test below to preview it without leaving." })] }), F("div", { children: F(dl, { variant: "ghost", size: "sm", onClick: () => o(!0), children: "Test redirect (safe)" }) })] }) })] }), F(SA, { title: "Panic", children: [F(PA, { id: "privacy-panic", label: "Panic key", description: "Press this key to instantly show a decoy screen without navigating away.", children: F(xl, { value: n.panicKey, onChange: e => g({ panicKey: e }) }) }), F(PA, { id: "privacy-panic-screen", label: "Panic screen", description: "What the decoy shows.", controlId: "privacy-panic-screen-control", children: F(bl, { id: "privacy-panic-screen-control", label: "Panic screen", value: n.panicPreset, options: OA.map(e => ({ value: e.id, label: e.name })), onChange: e => g({ panicPreset: e }) }) })] }), r ? F(Sl, { title: "Redirect test", onClose: () => o(!1), actions: F(dl, { variant: "primary", onClick: () => o(!1), children: "Got it" }), children: [F("p", { children: ["With redirect on blur enabled, switching away from this tab — including opening a cloaked tab — would immediately load ", F("code", { children: n.redirectOnBlurUrl }), " in its place."] }), F("p", { children: "This was only a preview. Nothing navigated and no settings changed." })] }) : null] }); }
 function jl(e) { return "object" == typeof e && null !== e && !Array.isArray(e); }
 function Ul(e, t, n, r, o, i) { if (!Array.isArray(e))
     return i.push(`${t} must be an array`), { items: [], count: { imported: 0, rejected: 1 } }; const a = ko(e, n, r, o); for (const s of a.rejectedIndices)
@@ -3761,7 +3712,7 @@ catch {
 } }(l), g = UA.find(t => t.id === e.relay.defaultBackend), h = "undefined" != typeof window && window.isSecureContext; return ["XenonNetwork diagnostics", `Backend: ${g ? `${g.name} ${g.tag}` : e.relay.defaultBackend}`, `Wisp: ${u} (${d})`, "Secure context: " + (h ? "yes" : "no"), `Service worker (Scramjet): ${n.scram}`].join("\n"), F("div", { class: "diag" }); }
 function Ll() { return F(y, { children: [F(SA, { children: F("div", { class: "about-head", children: [F("span", { class: "about-mark", "aria-hidden": "true", children: "A" }), F("div", { children: [F("div", { class: "about-name", children: "XenonNetwork" }), F("div", { class: "about-version", children: ["Version ", "0.1.0"] })] })] }) }), F(SA, { title: "Relay engines", children: UA.map(e => F(PA, { id: `about-engine-${e.id}`, label: e.name, description: e.description, children: F("span", { class: "engine-row__meta", children: F("span", { class: "engine-row__version", children: e.version }) }) }, e.id)) }), F(SA, { title: "Licenses and attribution", description: "Arctic builds on open-source relay engines. Scramjet is licensed under the AGPL-3.0; review each project's notices.", children: DA.map(e => F(PA, { id: `about-attrib-${e.name}`, label: e.name, description: `${e.version} · ${e.license}`, children: F("a", { class: "attrib-link", href: e.href, target: "_blank", rel: "noopener noreferrer", children: ["Notices", F(FA, { width: 15, height: 15 })] }) }, e.name)) }), null] }); }
 function ql({ query: e, onPick: t }) { const n = function (e) { const t = e.trim().toLowerCase(); if ("" === t)
-    return []; const n = t.split(/\s+/); return bA.filter(e => { const t = `${e.label} ${e.description} ${e.keywords.join(" ")}`.toLowerCase(); return n.every(e => t.includes(e)); }); }(e); return 0 === n.length ? F("div", { class: "search-results", children: F("p", { class: "search-results__empty", children: ["No settings match “", e.trim(), "”."] }) }) : F("div", { class: "search-results", children: n.map(e => { return F("button", { type: "button", class: "search-result", onClick: () => t(e), children: [F("span", { children: [F("span", { class: "search-result__label", children: e.label }), F("span", { class: "search-result__desc", children: [" - ", e.description] })] }), F("span", { class: "search-result__cat", children: [(n = e.category, CA.find(e => e.id === n)?.name ?? n), F(GA, { width: 14, height: 14 })] })] }, e.id); var n; }) }); }
+    return []; const n = t.split(/\s+/); return bA.filter(e => { const t = `${e.label} ${e.description} ${e.keywords.join(" ")}`.toLowerCase(); return n.every(e => t.includes(e)); }); }(e); return 0 === n.length ? F("div", { class: "search-results", children: F("p", { class: "search-results__empty", children: ["No settings match “", e.trim(), "”."] }) }) : F("div", { class: "search-results", children: n.map(e => { return F("button", { type: "button", class: "search-result", onClick: () => t(e), children: [F("span", { children: [F("span", { class: "search-result__label", children: e.label }), F("span", { class: "search-result__desc", children: [" — ", e.description] })] }), F("span", { class: "search-result__cat", children: [(n = e.category, CA.find(e => e.id === n)?.name ?? n), F(GA, { width: 14, height: 14 })] })] }, e.id); var n; }) }); }
 const Fl = "(max-width: 820px)";
 function Yl() { const e = /^#\/settings\/([a-z]+)/.exec(location.hash); return null === e ? null : CA.find(t => t.id === e[1])?.id ?? null; }
 function Vl(e) { switch (e) {
@@ -3832,8 +3783,7 @@ catch {
 
 
     <div id="arctic-root"></div>
-    
-<style id="arctic-neon-refresh">
+    <style id="arctic-neon-refresh">
 /* XenonNetwork custom dark-crimson theme (default).
    Scoped to frost / no-palette so other themes in Settings still work. */
 :root,
@@ -3866,7 +3816,7 @@ catch {
   color-scheme:dark;
 }
 
-/* Custom radial gradient background - default theme only */
+/* Custom radial gradient background — default theme only */
 :root[data-palette="gnmath"] html,
 :root[data-palette="gnmath"] body,
 :root:not([data-palette]) html,
@@ -3888,7 +3838,7 @@ catch {
   background:transparent;
 }
 
-/* Settings chrome - only on default crimson theme */
+/* Settings chrome — only on default crimson theme */
 :root[data-palette="gnmath"] .settings-nav,
 :root:not([data-palette]) .settings-nav {
   background:linear-gradient(180deg,rgba(34,10,17,.97),rgba(13,4,7,.98)) !important;
@@ -4130,623 +4080,210 @@ html, body, #arctic-root, .ax-workspace, .ax-workspace__stage,
 
 
 
+<style id="xenon-auth-layout-fix">
+.auth-panel{max-height:min(90vh,900px)!important;overflow-y:auto!important;padding-bottom:24px!important}
+@media(min-width:900px){
+  .auth-panel{display:flex!important;flex-direction:row!important;flex-wrap:wrap!important;align-items:flex-start!important;gap:16px!important;max-width:920px!important;width:100%!important}
+  .auth-panel>.xenon-auth-extra{flex:1 1 280px!important;margin-top:0!important}
+}
+</style>
+<script id="xenon-boot-errors">
+window.addEventListener("error",function(e){console.error("Xenon error",e.message,e.filename,e.lineno)});
+window.addEventListener("unhandledrejection",function(e){console.error("Xenon promise",e.reason)});
+</script>
 <script id="xenon-tab-ixl-cloak">
-(function () {
-  var IXL_TITLE = "IXL | Math, Language Arts, Science, Social Studies, and Spanish";
-  var IXL_ICON = "https://www.ixl.com/ixl-favicon.png";
-  var realTitle = document.title || "XenonNetwork";
-  function setFavicon(href) {
-    try {
-      var links = document.querySelectorAll('link[rel="icon"],link[rel="shortcut icon"]');
-      if (!links.length) {
-        var l = document.createElement("link");
-        l.rel = "icon"; l.type = "image/png"; l.href = href;
-        document.head.appendChild(l);
-        return;
-      }
-      links.forEach(function (l) { l.href = href; });
-    } catch (e) {}
+(function(){
+  var IXL_TITLE="IXL | Math, Language Arts, Science, Social Studies, and Spanish";
+  var IXL_ICON="https://www.ixl.com/ixl-favicon.png";
+  var realTitle=document.title||"XenonNetwork";
+  function setFavicon(href){
+    try{
+      var links=document.querySelectorAll('link[rel="icon"],link[rel="shortcut icon"]');
+      if(!links.length){var l=document.createElement("link");l.rel="icon";l.type="image/png";l.href=href;document.head.appendChild(l);return}
+      links.forEach(function(l){l.href=href});
+    }catch(e){}
   }
-  function applyIxl() {
-    try { realTitle = document.title || realTitle; } catch (e) {}
-    try { document.title = IXL_TITLE; } catch (e) {}
-    setFavicon(IXL_ICON);
-  }
-  function restore() {
-    try { if (realTitle && realTitle.indexOf("IXL") !== 0) document.title = realTitle; } catch (e) {}
-  }
-  document.addEventListener("visibilitychange", function () {
-    if (document.hidden) applyIxl(); else restore();
-  });
-  window.addEventListener("blur", applyIxl);
-  window.addEventListener("focus", restore);
-  setInterval(function () {
-    if (document.hidden || !document.hasFocus()) {
-      if (document.title !== IXL_TITLE) applyIxl();
-    }
-  }, 1000);
+  function applyIxl(){try{realTitle=document.title||realTitle}catch(e){}try{document.title=IXL_TITLE}catch(e){}setFavicon(IXL_ICON)}
+  function restore(){try{if(realTitle&&realTitle.indexOf("IXL")!==0)document.title=realTitle}catch(e){}}
+  document.addEventListener("visibilitychange",function(){if(document.hidden)applyIxl();else restore()});
+  window.addEventListener("blur",applyIxl);
+  window.addEventListener("focus",restore);
 })();
 </script>
-
-
-
-
 <script id="xenon-chat-reset">
-(function () {
-  var API_BASE = "https://xen0nkidd-auth.onrender.com";
-
-  function api(path, opts) {
-    opts = opts || {};
-    var headers = { "Content-Type": "application/json" };
-    try {
-      var tok = localStorage.getItem("arctic_auth_token");
-      if (tok) headers["Authorization"] = "Bearer " + tok;
-    } catch (e) {}
-    return fetch((API_BASE || "") + path, {
-      method: opts.method || "GET",
-      headers: Object.assign(headers, opts.headers || {}),
-      body: opts.body ? JSON.stringify(opts.body) : undefined
-    }).then(function (r) {
-      return r.json().then(function (d) {
-        return { ok: r.ok, status: r.status, data: d, error: (d && d.error) || null };
-      }).catch(function () {
-        return { ok: r.ok, status: r.status, data: null, error: r.ok ? null : "request failed" };
-      });
-    }).catch(function (e) {
-      return { ok: false, status: 0, data: null, error: e.message || "network error" };
-    });
+(function(){
+  var API_BASE="https://xen0nkidd-auth.onrender.com";
+  function api(path,opts){
+    opts=opts||{};
+    var headers={"Content-Type":"application/json"};
+    try{var tok=localStorage.getItem("arctic_auth_token");if(tok)headers.Authorization="Bearer "+tok}catch(e){}
+    return fetch(API_BASE+path,{method:opts.method||"GET",headers:headers,body:opts.body?JSON.stringify(opts.body):undefined})
+      .then(function(r){return r.json().then(function(d){return{ok:r.ok,status:r.status,data:d,error:(d&&d.error)||null}}).catch(function(){return{ok:r.ok,status:r.status,data:null,error:r.ok?null:"request failed"}})})
+      .catch(function(e){return{ok:false,status:0,data:null,error:e.message||"network error"}});
   }
-
-  function genBackupCode() {
-    // 20-char personalized backup code (client-side display; server should also generate)
-    var chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-    var out = "";
-    var arr = new Uint8Array(20);
-    crypto.getRandomValues(arr);
-    for (var i = 0; i < 20; i++) out += chars[arr[i] % chars.length];
-    // format like XXXX-XXXX-XXXX-XXXX-XXXX
-    return out.replace(/(.{4})/g, "$1-").replace(/-$/, "");
-  }
-
-  function cssVar(name, fallback) {
-    try {
-      return getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fallback;
-    } catch (e) { return fallback; }
-  }
-
-  function openSettings(username) {
-    var existing = document.getElementById("xenon-chat-settings");
-    if (existing) existing.remove();
-
-    var accent = cssVar("--accent", "#ff294d");
-    var surface = cssVar("--surface", "#1a1216");
-    var bg = cssVar("--bg-base", "#0f0a0c");
-    var text = cssVar("--text", "#f5eef1");
-    var muted = cssVar("--text-muted", "#b8a0aa");
-    var border = cssVar("--border", "#3a2a32");
-
-    var overlay = document.createElement("div");
-    overlay.id = "xenon-chat-settings";
-    overlay.style.cssText = "position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:16px;";
-
-    var card = document.createElement("div");
-    card.style.cssText = "width:100%;max-width:400px;background:" + surface + ";color:" + text + ";border:1px solid " + border + ";border-radius:16px;padding:22px 20px;box-shadow:0 20px 50px rgba(0,0,0,.45);max-height:90vh;overflow:auto;";
-
-    var storedCode = "";
-    try { storedCode = localStorage.getItem("xenon_backup_code") || ""; } catch (e) {}
-
-    card.innerHTML = [
-      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">',
-      '  <h2 style="font-size:18px;margin:0;">Chat settings</h2>',
-      '  <button type="button" id="xcs-close" style="background:none;border:0;color:' + muted + ';font-size:22px;cursor:pointer;line-height:1;">&times;</button>',
-      '</div>',
-      '<div style="font-size:12px;color:' + muted + ';margin-bottom:16px;line-height:1.4;">Matches your current theme. Backup codes let you sign in without username or password.</div>',
-      '<label style="display:block;font-size:12px;font-weight:600;color:' + muted + ';margin-bottom:4px;">Username</label>',
-      '<input id="xcs-user" readonly style="width:100%;height:38px;border-radius:8px;border:1px solid ' + border + ';background:' + bg + ';color:' + text + ';padding:0 12px;margin-bottom:12px;box-sizing:border-box;" />',
-      '<label style="display:block;font-size:12px;font-weight:600;color:' + muted + ';margin-bottom:4px;">Password</label>',
-      '<input id="xcs-pass" type="password" value="••••••••" readonly style="width:100%;height:38px;border-radius:8px;border:1px solid ' + border + ';background:' + bg + ';color:' + text + ';padding:0 12px;margin-bottom:6px;box-sizing:border-box;" />',
-      '<div style="font-size:11px;color:' + muted + ';margin-bottom:12px;">Passwords are hashed and cannot be shown. Use change password or reset.</div>',
-      '<label style="display:block;font-size:12px;font-weight:600;color:' + muted + ';margin-bottom:4px;">Backup code</label>',
-      '<div style="display:flex;gap:8px;margin-bottom:6px;">',
-      '  <input id="xcs-code" readonly style="flex:1;height:38px;border-radius:8px;border:1px solid ' + border + ';background:' + bg + ';color:' + accent + ';padding:0 12px;font-family:ui-monospace,monospace;font-size:12px;letter-spacing:.04em;box-sizing:border-box;" />',
-      '  <button type="button" id="xcs-copy" style="height:38px;padding:0 12px;border:0;border-radius:8px;background:' + accent + ';color:#fff;font-weight:600;cursor:pointer;font-size:12px;">Copy</button>',
-      '</div>',
-      '<div style="font-size:11px;color:' + muted + ';margin-bottom:14px;line-height:1.4;">Use this code on the sign-in screen to log in without username or password. Generating a new one invalidates the old code.</div>',
-      '<div style="display:flex;flex-direction:column;gap:8px;">',
-      '  <button type="button" id="xcs-regen" style="height:40px;border:0;border-radius:8px;background:' + accent + ';color:#fff;font-weight:600;cursor:pointer;">Generate new backup code</button>',
-      '  <button type="button" id="xcs-changepw" style="height:40px;border:1px solid ' + border + ';border-radius:8px;background:transparent;color:' + text + ';font-weight:600;cursor:pointer;">Change password</button>',
-      '</div>',
-      '<div id="xcs-msg" style="display:none;margin-top:12px;padding:10px;border-radius:8px;font-size:12px;line-height:1.4;"></div>',
-      '<div id="xcs-pwform" style="display:none;margin-top:14px;padding-top:14px;border-top:1px solid ' + border + ';">',
-      '  <label style="display:block;font-size:12px;font-weight:600;color:' + muted + ';margin-bottom:4px;">Current password</label>',
-      '  <input id="xcs-cur" type="password" style="width:100%;height:38px;border-radius:8px;border:1px solid ' + border + ';background:' + bg + ';color:' + text + ';padding:0 12px;margin-bottom:10px;box-sizing:border-box;" />',
-      '  <label style="display:block;font-size:12px;font-weight:600;color:' + muted + ';margin-bottom:4px;">New password</label>',
-      '  <input id="xcs-new" type="password" minlength="6" style="width:100%;height:38px;border-radius:8px;border:1px solid ' + border + ';background:' + bg + ';color:' + text + ';padding:0 12px;margin-bottom:10px;box-sizing:border-box;" />',
-      '  <button type="button" id="xcs-savepw" style="width:100%;height:40px;border:0;border-radius:8px;background:' + accent + ';color:#fff;font-weight:600;cursor:pointer;">Save new password</button>',
-      '</div>'
-    ].join("");
-
-    overlay.appendChild(card);
-    document.body.appendChild(overlay);
-
-    document.getElementById("xcs-user").value = username || "";
-    document.getElementById("xcs-code").value = storedCode || "(none yet — generate one)";
-
-    function showMsg(ok, text) {
-      var m = document.getElementById("xcs-msg");
-      m.style.display = "block";
-      m.style.background = ok ? "rgba(61,214,140,.12)" : "rgba(255,92,92,.12)";
-      m.style.color = ok ? "#3dd68c" : "#ff5c5c";
-      m.textContent = text;
-    }
-
-    document.getElementById("xcs-close").onclick = function () { overlay.remove(); };
-    overlay.addEventListener("click", function (e) { if (e.target === overlay) overlay.remove(); });
-
-    document.getElementById("xcs-copy").onclick = function () {
-      var c = document.getElementById("xcs-code").value;
-      if (!c || c.indexOf("none") >= 0) return;
-      navigator.clipboard.writeText(c).then(function () {
-        showMsg(true, "Backup code copied.");
-      }).catch(function () {
-        showMsg(false, "Could not copy — select and copy manually.");
-      });
-    };
-
-    document.getElementById("xcs-regen").onclick = async function () {
-      var code = genBackupCode();
-      var res = await api("/api/auth/backup-code", { method: "POST", body: { code: code } });
-      // Always store locally so settings stays in sync even if server is missing
-      try { localStorage.setItem("xenon_backup_code", code); } catch (e) {}
-      document.getElementById("xcs-code").value = code;
-      if (res.ok) {
-        showMsg(true, "New backup code saved. The old code no longer works. Copy it now — it won't be shown in full again on the server.");
-      } else {
-        showMsg(true, "New backup code generated on this device. Server sync: " + (res.error || "not available yet") + ". Copy and save it.");
-      }
-    };
-
-    document.getElementById("xcs-changepw").onclick = function () {
-      var f = document.getElementById("xcs-pwform");
-      f.style.display = f.style.display === "none" ? "block" : "none";
-    };
-
-    document.getElementById("xcs-savepw").onclick = async function () {
-      var cur = document.getElementById("xcs-cur").value;
-      var neu = document.getElementById("xcs-new").value;
-      if (neu.length < 6) { showMsg(false, "New password must be at least 6 characters."); return; }
-      var res = await api("/api/auth/change-password", { method: "POST", body: { currentPassword: cur, newPassword: neu } });
-      if (res.ok) {
-        // Also issue a new backup code after password change
-        var code = genBackupCode();
-        try { localStorage.setItem("xenon_backup_code", code); } catch (e) {}
-        document.getElementById("xcs-code").value = code;
-        await api("/api/auth/backup-code", { method: "POST", body: { code: code } });
-        showMsg(true, "Password updated. New backup code generated — copy it now.");
-        document.getElementById("xcs-pwform").style.display = "none";
-      } else {
-        showMsg(false, res.error || "Could not change password.");
-      }
-    };
-  }
-
-  function injectSettingsButton() {
-    document.querySelectorAll(".chat-me").forEach(function (header) {
-      if (header.querySelector(".xenon-chat-settings-btn")) return;
-      var nameEl = header.querySelector(".chat-me-name");
-      var username = nameEl ? nameEl.textContent.trim() : "";
-      var btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "xenon-chat-settings-btn";
-      btn.textContent = "Settings";
-      btn.style.cssText = "margin-left:8px;height:28px;padding:0 10px;border-radius:8px;border:1px solid var(--border,#444);background:var(--surface,#222);color:var(--text,#eee);font-size:12px;font-weight:600;cursor:pointer;";
-      btn.onclick = function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        openSettings(username);
-      };
-      var logout = header.querySelector(".chat-logout");
-      if (logout) header.insertBefore(btn, logout);
-      else header.appendChild(btn);
-    });
-  }
-
-  // --- Auth panel: email, forgot, add-email, backup-code login ---
-  function enhanceAuth() {
-    document.querySelectorAll(".auth-panel").forEach(function (panel) {
-      if (panel.dataset.xenonAuthEnhanced === "1") return;
-      panel.dataset.xenonAuthEnhanced = "1";
-
-      var form = panel.querySelector(".auth-form");
-      var switchBtn = panel.querySelector(".auth-switch");
-      if (!form) return;
-
-      // Email field for register
-      var emailWrap = document.createElement("div");
-      emailWrap.className = "xenon-email-field";
-      emailWrap.style.cssText = "display:none;margin-bottom:10px;text-align:left;";
-      emailWrap.innerHTML = '<label style="display:block;font-size:12px;font-weight:600;margin-bottom:4px;opacity:.8">Email <span style="color:#ff5c5c">*</span></label>';
-      var emailInput = document.createElement("input");
-      emailInput.type = "email";
-      emailInput.placeholder = "you@example.com";
-      emailInput.autocomplete = "email";
-      emailInput.style.cssText = "width:100%;height:38px;border-radius:8px;border:1px solid var(--border,#444);background:var(--surface-sunken,#1a1a1a);color:var(--text,#eee);padding:0 12px;font-size:14px;box-sizing:border-box;";
+  function enhance(){
+    document.querySelectorAll(".auth-panel").forEach(function(panel){
+      if(panel.dataset.xenonAuthEnhanced==="1")return;
+      panel.dataset.xenonAuthEnhanced="1";
+      var form=panel.querySelector(".auth-form");
+      if(!form)return;
+      var emailWrap=document.createElement("div");
+      emailWrap.style.cssText="display:none;margin-bottom:10px;text-align:left";
+      emailWrap.innerHTML='<label style="display:block;font-size:12px;font-weight:600;margin-bottom:4px;opacity:.8">Email <span style="color:#ff5c5c">*</span></label>';
+      var emailInput=document.createElement("input");
+      emailInput.type="email";emailInput.placeholder="you@example.com";
+      emailInput.style.cssText="width:100%;height:38px;border-radius:8px;border:1px solid var(--border,#444);background:var(--surface-sunken,#1a1a1a);color:var(--text,#eee);padding:0 12px;box-sizing:border-box";
       emailWrap.appendChild(emailInput);
-      var submitBtn = form.querySelector('button[type="submit"]');
-      if (submitBtn) form.insertBefore(emailWrap, submitBtn);
-      else form.appendChild(emailWrap);
-
-      function isRegisterMode() {
-        var t = (submitBtn && submitBtn.textContent || "").toLowerCase();
-        if (t.indexOf("create") >= 0 || t.indexOf("sign up") >= 0 || t.indexOf("register") >= 0) return true;
-        var sw = (switchBtn && switchBtn.textContent || "").toLowerCase();
-        return sw.indexOf("already") >= 0;
-      }
-      function syncEmail() {
-        emailWrap.style.display = isRegisterMode() ? "block" : "none";
-      }
-      syncEmail();
-      if (switchBtn) switchBtn.addEventListener("click", function () { setTimeout(syncEmail, 80); });
-      setInterval(syncEmail, 1000);
-
-      form.addEventListener("submit", function (e) {
-        if (!isRegisterMode()) return;
-        var email = (emailInput.value || "").trim();
-        if (!email || email.indexOf("@") < 0) {
-          e.preventDefault();
-          e.stopPropagation();
-          alert("Email is required to create an account.");
-          return false;
-        }
-        try { sessionStorage.setItem("xenon_pending_email", email); } catch (err) {}
-      }, true);
-
-      // Backup code login field
-      var bcWrap = document.createElement("div");
-      bcWrap.style.cssText = "margin-top:12px;padding-top:12px;border-top:1px solid var(--border,#333);text-align:left;";
-      bcWrap.innerHTML = '<label style="display:block;font-size:12px;font-weight:600;margin-bottom:4px;opacity:.8">Or sign in with backup code</label>';
-      var bcInput = document.createElement("input");
-      bcInput.type = "text";
-      bcInput.placeholder = "XXXX-XXXX-XXXX-XXXX-XXXX";
-      bcInput.autocomplete = "off";
-      bcInput.spellcheck = false;
-      bcInput.style.cssText = "width:100%;height:38px;border-radius:8px;border:1px solid var(--border,#444);background:var(--surface-sunken,#1a1a1a);color:var(--text,#eee);padding:0 12px;font-size:13px;font-family:ui-monospace,monospace;box-sizing:border-box;margin-bottom:8px;";
-      var bcBtn = document.createElement("button");
-      bcBtn.type = "button";
-      bcBtn.textContent = "Sign in with backup code";
-      bcBtn.style.cssText = "width:100%;height:38px;border:0;border-radius:8px;background:var(--accent,#ff294d);color:#fff;font-weight:600;cursor:pointer;font-size:13px;";
-      var bcMsg = document.createElement("div");
-      bcMsg.style.cssText = "font-size:12px;margin-top:8px;line-height:1.4;";
-      bcBtn.onclick = async function () {
-        var code = (bcInput.value || "").trim().toUpperCase();
-        if (code.length < 10) {
-          bcMsg.style.color = "#ff5c5c";
-          bcMsg.textContent = "Enter your full backup code.";
-          return;
-        }
-        bcBtn.disabled = true;
-        bcBtn.textContent = "Signing in…";
-        var res = await api("/api/auth/login-backup", { method: "POST", body: { code: code } });
-        if (res.ok && res.data && res.data.token) {
-          try { localStorage.setItem("arctic_auth_token", res.data.token); } catch (e) {}
-          bcMsg.style.color = "#3dd68c";
-          bcMsg.textContent = "Signed in. Reloading…";
-          setTimeout(function () { location.reload(); }, 600);
-        } else {
-          // Local fallback: if code matches stored local backup, we still need server session
-          var local = "";
-          try { local = (localStorage.getItem("xenon_backup_code") || "").toUpperCase(); } catch (e) {}
-          bcMsg.style.color = "#ff5c5c";
-          var detail = (res && res.error) ? res.error : ("HTTP " + (res && res.status ? res.status : "?"));
-          if (local && local.replace(/-/g, "") === code.replace(/-/g, "")) {
-            bcMsg.textContent = "Local code OK, but server said: " + detail + " — wake Render, deploy login-backup, and save the code to the server.";
-          } else {
-            bcMsg.textContent = detail || "Invalid backup code or server unavailable.";
-          }
-          bcBtn.disabled = false;
-          bcBtn.textContent = "Sign in with backup code";
+      var submitBtn=form.querySelector('button[type="submit"]');
+      if(submitBtn)form.insertBefore(emailWrap,submitBtn);else form.appendChild(emailWrap);
+      function isReg(){var t=(submitBtn&&submitBtn.textContent||"").toLowerCase();return t.indexOf("create")>=0||t.indexOf("sign up")>=0||t.indexOf("register")>=0}
+      function sync(){emailWrap.style.display=isReg()?"block":"none"}
+      sync();setInterval(sync,800);
+      form.addEventListener("submit",function(e){
+        if(!isReg())return;
+        var email=(emailInput.value||"").trim();
+        if(!email||email.indexOf("@")<0){e.preventDefault();e.stopPropagation();alert("Email is required");}
+      },true);
+      // backup login
+      var bcWrap=document.createElement("div");
+      bcWrap.style.cssText="margin-top:12px;padding-top:12px;border-top:1px solid var(--border,#333);text-align:left";
+      bcWrap.innerHTML='<label style="display:block;font-size:12px;font-weight:600;margin-bottom:4px;opacity:.8">Or sign in with backup code</label>';
+      var bcInput=document.createElement("input");
+      bcInput.placeholder="XXXX-XXXX-XXXX-XXXX-XXXX";
+      bcInput.style.cssText="width:100%;height:38px;border-radius:8px;border:1px solid var(--border,#444);background:var(--surface-sunken,#1a1a1a);color:var(--text,#eee);padding:0 12px;font-family:monospace;box-sizing:border-box;margin-bottom:8px";
+      var bcBtn=document.createElement("button");
+      bcBtn.type="button";bcBtn.textContent="Sign in with backup code";
+      bcBtn.style.cssText="width:100%;height:38px;border:0;border-radius:8px;background:var(--accent,#ff294d);color:#fff;font-weight:600;cursor:pointer";
+      var bcMsg=document.createElement("div");bcMsg.style.cssText="font-size:12px;margin-top:8px";
+      bcBtn.onclick=async function(){
+        var code=(bcInput.value||"").trim().toUpperCase();
+        if(code.length<10){bcMsg.style.color="#ff5c5c";bcMsg.textContent="Enter full backup code";return}
+        bcBtn.disabled=true;bcBtn.textContent="Signing in…";
+        var res=await api("/api/auth/login-backup",{method:"POST",body:{code:code}});
+        if(res.ok&&res.data&&res.data.token){
+          try{localStorage.setItem("arctic_auth_token",res.data.token)}catch(e){}
+          bcMsg.style.color="#3dd68c";bcMsg.textContent="Signed in. Reloading…";
+          setTimeout(function(){location.reload()},500);
+        }else{
+          bcMsg.style.color="#ff5c5c";
+          bcMsg.textContent=(res.error||"Backup login failed")+" (status "+(res.status||"?")+")";
+          bcBtn.disabled=false;bcBtn.textContent="Sign in with backup code";
         }
       };
-      bcWrap.appendChild(bcInput);
-      bcWrap.appendChild(bcBtn);
-      bcWrap.appendChild(bcMsg);
+      bcWrap.appendChild(bcInput);bcWrap.appendChild(bcBtn);bcWrap.appendChild(bcMsg);
       form.parentNode.appendChild(bcWrap);
-
-      // Forgot / add email links
-      if (!panel.querySelector(".xenon-forgot-links")) {
-        var links = document.createElement("div");
-        links.className = "xenon-forgot-links";
-        links.style.cssText = "margin-top:12px;text-align:center;display:flex;flex-direction:column;gap:6px;";
-
-        function miniPanel(mode) {
-          var old = panel.querySelector(".xenon-auth-extra");
-          if (old) old.remove();
-          var box = document.createElement("div");
-          box.className = "xenon-auth-extra";
-          box.style.cssText = "margin-top:12px;padding:12px;border-radius:10px;background:var(--surface-sunken,rgba(0,0,0,.2));border:1px solid var(--border,#333);text-align:left;";
-          if (mode === "forgot") {
-            box.innerHTML = '<div style="font-weight:700;margin-bottom:6px;">Reset password</div><div style="font-size:12px;opacity:.8;margin-bottom:8px;">We email you a link and a 20-character token.</div>';
-            var em = document.createElement("input");
-            em.type = "email"; em.placeholder = "you@example.com";
-            em.style.cssText = "width:100%;height:36px;border-radius:8px;border:1px solid var(--border,#444);background:var(--bg-base,#111);color:var(--text,#eee);padding:0 10px;margin-bottom:8px;box-sizing:border-box;";
-            var st = document.createElement("div"); st.style.cssText = "font-size:12px;margin-top:6px;";
-            var go = document.createElement("button");
-            go.type = "button"; go.textContent = "Send reset link + token";
-            go.style.cssText = "width:100%;height:36px;border:0;border-radius:8px;background:var(--accent,#ff294d);color:#fff;font-weight:600;cursor:pointer;";
-            go.onclick = async function () {
-              var email = em.value.trim();
-              if (!email || email.indexOf("@") < 0) { st.style.color = "#ff5c5c"; st.textContent = "Enter a valid email."; return; }
-              go.disabled = true;
-              var res = await api("/api/auth/forgot-password", { method: "POST", body: { email: email } });
-              st.style.color = res.ok ? "#3dd68c" : "#ff5c5c";
-              st.textContent = res.ok
-                ? "If that email is on an account, we sent a reset link AND a 20-character token. Check inbox/spam."
-                : (res.error || "Server may not support email reset yet.");
-              go.disabled = false;
-            };
-            box.appendChild(em); box.appendChild(go); box.appendChild(st);
-          } else {
-            box.innerHTML = '<div style="font-weight:700;margin-bottom:6px;">Add email (no login)</div><div style="font-size:12px;opacity:.8;margin-bottom:8px;">Attach an email so you can reset your password later.</div>';
-            var u = document.createElement("input"); u.placeholder = "username";
-            u.style.cssText = "width:100%;height:36px;border-radius:8px;border:1px solid var(--border,#444);background:var(--bg-base,#111);color:var(--text,#eee);padding:0 10px;margin-bottom:8px;box-sizing:border-box;";
-            var em = document.createElement("input"); em.type = "email"; em.placeholder = "you@example.com";
-            em.style.cssText = u.style.cssText;
-            var st = document.createElement("div"); st.style.cssText = "font-size:12px;margin-top:6px;";
-            var go = document.createElement("button");
-            go.type = "button"; go.textContent = "Add email";
-            go.style.cssText = "width:100%;height:36px;border:0;border-radius:8px;background:var(--accent,#ff294d);color:#fff;font-weight:600;cursor:pointer;";
-            go.onclick = async function () {
-              var res = await api("/api/auth/add-email", { method: "POST", body: { username: u.value.trim(), email: em.value.trim() } });
-              st.style.color = res.ok ? "#3dd68c" : "#ff5c5c";
-              st.textContent = res.ok ? "Check your email to confirm." : (res.error || "Server may not support this yet.");
-            };
-            box.appendChild(u); box.appendChild(em); box.appendChild(go); box.appendChild(st);
-          }
-          var cancel = document.createElement("button");
-          cancel.type = "button"; cancel.textContent = "Cancel";
-          cancel.style.cssText = "margin-top:8px;background:none;border:0;color:var(--accent,#2b8acd);font-size:12px;cursor:pointer;text-decoration:underline;";
-          cancel.onclick = function () { box.remove(); };
-          box.appendChild(cancel);
-          panel.appendChild(box);
+      // forgot / claim links
+      if(!panel.querySelector(".xenon-forgot-links")){
+        var links=document.createElement("div");
+        links.className="xenon-forgot-links";
+        links.style.cssText="margin-top:12px;text-align:center;display:flex;flex-direction:column;gap:6px";
+        function box(title,bodyBuild){
+          var old=panel.querySelector(".xenon-auth-extra");if(old)old.remove();
+          var b=document.createElement("div");b.className="xenon-auth-extra";
+          b.style.cssText="margin-top:12px;padding:12px;border-radius:10px;background:var(--surface-sunken,rgba(0,0,0,.2));border:1px solid var(--border,#333);text-align:left";
+          b.innerHTML="<div style='font-weight:700;margin-bottom:6px'>"+title+"</div>";
+          bodyBuild(b);panel.appendChild(b);
         }
-
-        var f = document.createElement("button");
-        f.type = "button"; f.textContent = "Forgot password?";
-        f.style.cssText = "background:none;border:0;color:var(--accent,#2b8acd);font-size:13px;cursor:pointer;text-decoration:underline;";
-        f.onclick = function () { miniPanel("forgot"); };
-        var a = document.createElement("button");
-        a.type = "button"; a.textContent = "Claim account / add email (no login)";
-        a.style.cssText = "background:none;border:0;color:var(--text-muted,#999);font-size:12px;cursor:pointer;text-decoration:underline;";
-        a.onclick = function () { miniPanel("add"); };
-        links.appendChild(f); links.appendChild(a);
-        if (switchBtn) switchBtn.parentNode.insertBefore(links, switchBtn);
-        else panel.appendChild(links);
+        var f=document.createElement("button");f.type="button";f.textContent="Forgot password?";
+        f.style.cssText="background:none;border:0;color:var(--accent,#2b8acd);font-size:13px;cursor:pointer;text-decoration:underline";
+        f.onclick=function(){
+          box("Reset password",function(b){
+            b.innerHTML+="<div style='font-size:12px;opacity:.8;margin-bottom:8px'>We email a link and a 20-character token.</div>";
+            var em=document.createElement("input");em.type="email";em.placeholder="you@example.com";
+            em.style.cssText="width:100%;height:36px;border-radius:8px;border:1px solid var(--border,#444);background:var(--bg-base,#111);color:var(--text,#eee);padding:0 10px;margin-bottom:8px;box-sizing:border-box";
+            var st=document.createElement("div");st.style.cssText="font-size:12px;margin-top:6px";
+            var go=document.createElement("button");go.type="button";go.textContent="Send reset link + token";
+            go.style.cssText="width:100%;height:36px;border:0;border-radius:8px;background:var(--accent,#ff294d);color:#fff;font-weight:600;cursor:pointer";
+            go.onclick=async function(){
+              var email=em.value.trim();
+              if(!email||email.indexOf("@")<0){st.style.color="#ff5c5c";st.textContent="Enter a valid email.";return}
+              go.disabled=true;
+              var res=await api("/api/auth/forgot-password",{method:"POST",body:{email:email}});
+              st.style.color=res.ok?"#3dd68c":"#ff5c5c";
+              st.textContent=res.ok?"If that email is on an account, check inbox/spam for the link + token.":(res.error||"Request failed");
+              go.disabled=false;
+            };
+            b.appendChild(em);b.appendChild(go);b.appendChild(st);
+          });
+        };
+        var c=document.createElement("button");c.type="button";c.textContent="Claim account / add email (no login)";
+        c.style.cssText="background:none;border:0;color:var(--text-muted,#999);font-size:12px;cursor:pointer;text-decoration:underline";
+        c.onclick=function(){
+          box("Claim / add email",function(b){
+            var u=document.createElement("input");u.placeholder="username";
+            u.style.cssText="width:100%;height:36px;border-radius:8px;border:1px solid var(--border,#444);background:var(--bg-base,#111);color:var(--text,#eee);padding:0 10px;margin-bottom:8px;box-sizing:border-box";
+            var em=document.createElement("input");em.type="email";em.placeholder="email";
+            em.style.cssText=u.style.cssText;
+            var st=document.createElement("div");st.style.cssText="font-size:12px;margin-top:6px";
+            var go=document.createElement("button");go.type="button";go.textContent="Submit";
+            go.style.cssText="width:100%;height:36px;border:0;border-radius:8px;background:var(--accent,#ff294d);color:#fff;font-weight:600;cursor:pointer";
+            go.onclick=async function(){
+              var res=await api("/api/auth/add-email",{method:"POST",body:{username:u.value.trim(),email:em.value.trim()}});
+              st.style.color=res.ok?"#3dd68c":"#ff5c5c";
+              st.textContent=res.ok?"Email saved on account.":(res.error||"Failed");
+            };
+            b.appendChild(u);b.appendChild(em);b.appendChild(go);b.appendChild(st);
+          });
+        };
+        links.appendChild(f);links.appendChild(c);
+        panel.appendChild(links);
       }
     });
+    // settings button
+    document.querySelectorAll(".chat-me").forEach(function(header){
+      if(header.querySelector(".xenon-chat-settings-btn"))return;
+      var nameEl=header.querySelector(".chat-me-name");
+      var username=nameEl?nameEl.textContent.trim():"";
+      var btn=document.createElement("button");
+      btn.type="button";btn.className="xenon-chat-settings-btn";btn.textContent="Settings";
+      btn.style.cssText="margin-left:8px;height:28px;padding:0 10px;border-radius:8px;border:1px solid var(--border,#444);background:var(--surface,#222);color:var(--text,#eee);font-size:12px;font-weight:600;cursor:pointer";
+      btn.onclick=function(){
+        var code="";try{code=localStorage.getItem("xenon_backup_code")||""}catch(e){}
+        var overlay=document.createElement("div");
+        overlay.style.cssText="position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:16px";
+        var card=document.createElement("div");
+        card.style.cssText="width:100%;max-width:400px;background:var(--surface,#1a1216);color:var(--text,#f5eef1);border:1px solid var(--border,#3a2a32);border-radius:16px;padding:20px";
+        card.innerHTML="<h2 style='margin:0 0 12px;font-size:18px'>Chat settings</h2>"+
+          "<div style='font-size:12px;opacity:.8;margin-bottom:8px'>Username</div>"+
+          "<div style='margin-bottom:12px;font-weight:600'>"+(username||"—")+"</div>"+
+          "<div style='font-size:12px;opacity:.8;margin-bottom:8px'>Backup code</div>"+
+          "<div style='font-family:monospace;margin-bottom:12px;word-break:break-all'>"+(code||"(none yet)")+"</div>"+
+          "<button type='button' id='xcs-gen' style='width:100%;height:40px;border:0;border-radius:8px;background:var(--accent,#ff294d);color:#fff;font-weight:600;cursor:pointer;margin-bottom:8px'>Generate new backup code</button>"+
+          "<button type='button' id='xcs-close' style='width:100%;height:36px;border:1px solid var(--border,#444);border-radius:8px;background:transparent;color:var(--text,#eee);cursor:pointer'>Close</button>"+
+          "<div id='xcs-msg' style='font-size:12px;margin-top:10px'></div>";
+        overlay.appendChild(card);document.body.appendChild(overlay);
+        card.querySelector("#xcs-close").onclick=function(){overlay.remove()};
+        overlay.onclick=function(e){if(e.target===overlay)overlay.remove()};
+        card.querySelector("#xcs-gen").onclick=async function(){
+          var chars="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";var raw="";var arr=new Uint8Array(20);crypto.getRandomValues(arr);
+          for(var i=0;i<20;i++)raw+=chars[arr[i]%chars.length];
+          var formatted=raw.replace(/(.{4})/g,"$1-").replace(/-$/,"");
+          try{localStorage.setItem("xenon_backup_code",formatted)}catch(e){}
+          await api("/api/auth/backup-code",{method:"POST",body:{username:username,code:formatted}});
+          card.querySelector("#xcs-msg").style.color="#3dd68c";
+          card.querySelector("#xcs-msg").textContent="New code: "+formatted+" — copy it now.";
+        };
+      };
+      var logout=header.querySelector(".chat-logout");
+      if(logout)header.insertBefore(btn,logout);else header.appendChild(btn);
+    });
   }
-
-  function tick() {
-    injectSettingsButton();
-    enhanceAuth();
-  }
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", tick);
-  else tick();
-  setInterval(tick, 1500);
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",enhance);
+  else enhance();
+  setInterval(enhance,1500);
 })();
 </script>
-
-
-<script id="xenon-claim-account">
-(function () {
-  var API_BASE = "https://xen0nkidd-auth.onrender.com";
-
-  function api(path, body) {
-    return fetch((API_BASE || "") + path, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body || {})
-    }).then(function (r) {
-      return r.json().then(function (d) {
-        return { ok: r.ok, data: d, error: d && d.error };
-      }).catch(function () {
-        return { ok: r.ok, data: null, error: "request failed" };
-      });
-    }).catch(function (e) {
-      return { ok: false, error: e.message || "network error" };
-    });
-  }
-
-  function openClaimModal() {
-    var existing = document.getElementById("xenon-claim-modal");
-    if (existing) existing.remove();
-
-    var overlay = document.createElement("div");
-    overlay.id = "xenon-claim-modal";
-    overlay.style.cssText = "position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:16px;";
-
-    var card = document.createElement("div");
-    card.style.cssText = "width:100%;max-width:400px;background:var(--surface,#1a1216);color:var(--text,#f5eef1);border:1px solid var(--border,#3a2a32);border-radius:16px;padding:22px 20px;box-shadow:0 20px 50px rgba(0,0,0,.45);";
-
-    card.innerHTML = [
-      '<h2 style="font-size:18px;margin:0 0 8px;">Claim account / add email</h2>',
-      '<p style="font-size:13px;color:var(--text-muted,#b8a0aa);line-height:1.45;margin:0 0 14px;">',
-      'If this username has <strong>no email</strong> yet, you can attach one without logging in. ',
-      'We email a confirmation link. After you confirm, you can set a password and access the account ',
-      '(only works for accounts that never had an email).</p>',
-      '<label style="display:block;font-size:12px;font-weight:600;opacity:.8;margin-bottom:4px;">Username</label>',
-      '<input id="xc-user" placeholder="account username" style="width:100%;height:38px;border-radius:8px;border:1px solid var(--border,#444);background:var(--bg-base,#111);color:var(--text,#eee);padding:0 12px;margin-bottom:10px;box-sizing:border-box;" />',
-      '<label style="display:block;font-size:12px;font-weight:600;opacity:.8;margin-bottom:4px;">Your email</label>',
-      '<input id="xc-email" type="email" placeholder="you@example.com" style="width:100%;height:38px;border-radius:8px;border:1px solid var(--border,#444);background:var(--bg-base,#111);color:var(--text,#eee);padding:0 12px;margin-bottom:12px;box-sizing:border-box;" />',
-      '<button type="button" id="xc-go" style="width:100%;height:40px;border:0;border-radius:8px;background:var(--accent,#ff294d);color:#fff;font-weight:600;cursor:pointer;">Send claim / confirmation email</button>',
-      '<div id="xc-msg" style="font-size:12px;margin-top:10px;line-height:1.4;"></div>',
-      '<button type="button" id="xc-close" style="margin-top:12px;background:none;border:0;color:var(--accent,#2b8acd);font-size:12px;cursor:pointer;text-decoration:underline;">Cancel</button>'
-    ].join("");
-
-    overlay.appendChild(card);
-    document.body.appendChild(overlay);
-
-    document.getElementById("xc-close").onclick = function () { overlay.remove(); };
-    overlay.addEventListener("click", function (e) { if (e.target === overlay) overlay.remove(); });
-
-    document.getElementById("xc-go").onclick = async function () {
-      var username = document.getElementById("xc-user").value.trim();
-      var email = document.getElementById("xc-email").value.trim();
-      var msg = document.getElementById("xc-msg");
-      var go = document.getElementById("xc-go");
-      if (!username) { msg.style.color = "#ff5c5c"; msg.textContent = "Username is required."; return; }
-      if (!email || email.indexOf("@") < 0) { msg.style.color = "#ff5c5c"; msg.textContent = "Enter a valid email."; return; }
-      go.disabled = true;
-      go.textContent = "Sending…";
-
-      // Preferred: claim endpoint for accounts with no email
-      var res = await api("/api/auth/claim-account", { username: username, email: email });
-      if (!res.ok) {
-        // Fallback to add-email
-        res = await api("/api/auth/add-email", { username: username, email: email });
-      }
-
-      if (res.ok) {
-        msg.style.color = "#3dd68c";
-        msg.innerHTML = "Check your email. Open the confirmation link to attach this email" +
-          (res.data && res.data.claimable !== false
-            ? " and finish claiming the account (set a password if prompted)."
-            : ".");
-        go.textContent = "Sent";
-      } else {
-        msg.style.color = "#ff5c5c";
-        msg.textContent = res.error || "Could not claim/add email. Account may already have an email, or the server needs the claim API.";
-        go.disabled = false;
-        go.textContent = "Send claim / confirmation email";
-      }
-    };
-  }
-
-  function wireClaimButtons() {
-    document.querySelectorAll(".xenon-forgot-links button").forEach(function (btn) {
-      var t = (btn.textContent || "").toLowerCase();
-      if (t.indexOf("claim") >= 0 || t.indexOf("add email") >= 0) {
-        if (btn.dataset.xenonClaimWired) return;
-        btn.dataset.xenonClaimWired = "1";
-        btn.addEventListener("click", function (e) {
-          e.preventDefault();
-          e.stopPropagation();
-          openClaimModal();
-        }, true);
-      }
-    });
-  }
-
-  setInterval(wireClaimButtons, 1200);
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", wireClaimButtons);
-  else wireClaimButtons();
-})();
-</script>
-
-
-<script id="xenon-ball-spin">
-(function () {
-  // STILL steel ball image (not animated GIF)
-  // Using a static PNG-style render; if this 404s, falls back to original src
-  var STILL = "https://media.tenor.com/EzVyUUOx2jsAAAAd/gyros-steel-ball-gyro-zeppeli.gif";
-  // Freeze GIF by seeking to first frame via canvas snapshot when possible
-
-  function isWordmarkBall(img) {
-    if (!img || img.tagName !== "IMG") return false;
-    // ONLY the brand/wordmark steel balls — never app grid icons
-    if (img.classList.contains("wordmark-mark")) return true;
-    if (img.closest(".wordmark")) return true;
-    // Sidebar logo only
-    if (img.closest("aside nav, .sidebar, [class*='side-nav']") && img.closest("[class*='logo'], [class*='wordmark']")) return true;
-    return false;
-  }
-
-  function freezeToStill(img) {
-    if (img.dataset.xenonStill === "1") return;
-    img.dataset.xenonStill = "1";
-
-    // Prefer keeping original if it's already a static asset; only swap wordmark
-    var original = img.src;
-    img.src = STILL;
-    img.srcset = "";
-    img.loading = "eager";
-    img.decoding = "sync";
-    img.style.objectFit = "contain";
-    img.style.borderRadius = "50%";
-
-    // Freeze animated GIF: draw first frame to canvas and replace with PNG data URL
-    function freeze() {
-      try {
-        var w = img.naturalWidth || 128;
-        var h = img.naturalHeight || 128;
-        if (w < 8 || h < 8) return;
-        var c = document.createElement("canvas");
-        c.width = w;
-        c.height = h;
-        var ctx = c.getContext("2d");
-        ctx.drawImage(img, 0, 0, w, h);
-        var data = c.toDataURL("image/png");
-        if (data && data.length > 100) {
-          img.src = data;
-          img.dataset.xenonFrozen = "1";
-        }
-      } catch (e) {
-        // cross-origin canvas taint — leave as-is (may still animate)
-      }
-    }
-
-    if (img.complete && img.naturalWidth) freeze();
-    else img.addEventListener("load", freeze, { once: true });
-
-    // If still fails to load, restore original
-    img.addEventListener("error", function () {
-      if (original) img.src = original;
-    }, { once: true });
-  }
-
-  function scan() {
-    document.querySelectorAll("img.wordmark-mark, .wordmark img, img[class*='wordmark']").forEach(function (img) {
-      if (isWordmarkBall(img)) freezeToStill(img);
-    });
-  }
-
-  document.addEventListener("click", function (e) {
-    var t = e.target;
-    if (!isWordmarkBall(t)) return;
-    freezeToStill(t);
-    var spins = parseInt(t.dataset.xenonSpins || "0", 10) + 1;
-    t.dataset.xenonSpins = String(spins);
-    t.style.transformOrigin = "center center";
-    t.style.transition = "transform 0.85s cubic-bezier(0.22, 1, 0.36, 1)";
-    t.style.transform = "rotate(" + (spins * 360) + "deg)";
-  }, true);
-
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", scan);
-  else scan();
-  setInterval(scan, 2500);
-})();
-</script>
-
-
 <script id="xenon-auth-persist">
-(function () {
-  // Keep auth token across tab switches; block accidental clears from our scripts
-  var KEY = "arctic_auth_token";
-  var last = null;
-  try { last = localStorage.getItem(KEY); } catch (e) {}
-  setInterval(function () {
-    try {
-      var now = localStorage.getItem(KEY);
-      if (!now && last) {
-        // restore if something wiped it during UI navigation
-        localStorage.setItem(KEY, last);
-      } else if (now) {
-        last = now;
-      }
-    } catch (e) {}
-  }, 1000);
-  window.addEventListener("storage", function (e) {
-    if (e.key === KEY && e.newValue) last = e.newValue;
-  });
+(function(){
+  var KEY="arctic_auth_token";var last=null;
+  try{last=localStorage.getItem(KEY)}catch(e){}
+  setInterval(function(){
+    try{
+      var now=localStorage.getItem(KEY);
+      if(!now&&last)localStorage.setItem(KEY,last);
+      else if(now)last=now;
+    }catch(e){}
+  },1000);
 })();
 </script>
 
