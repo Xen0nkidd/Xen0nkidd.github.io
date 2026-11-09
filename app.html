@@ -498,10 +498,10 @@ catch {
 const mt = [`wss://${String.fromCharCode(97, 114, 99, 116, 105, 99, 46, 108, 97, 116)}/_q/{k}/`, "wss://wisp.mercurywork.shop/wisp/", "wss://wisp.mercurywork.shop/"].map(e => it(e)).filter(e => null !== e);
 const vt = !1, wt = ["ml3.bf055818ca4319ef7181dfbb51a634b131bc2416e06f788db04e9c9f825ae75ccec4973aceee7778f0424bae65bd2cc26a96d58b39ba061d831c4f2adc2c93d4c3519a60", "ml3.bf055818ca4319ef6680c2e152bb37b73bfb3817aa647190e95bdade9445a15fc2828a368ae97c75fb0a07bf69ad208e2693df8c20aa6b078b065176eb2881cd830a957d2de1a31d77ed", "ml3.bf055818ca4319ef7586dee75efb3aa739b03e0db8733397fa5ddbd7991efd53c3c99d348dea357ffa094ff367bb26d52e82918f20ba3603a218406cc56a97cd9e55cc6026e5", "ml3.bf055818ca4319ef7181dfbb48a131a034b63308a2783390f00693d8de42e551cec9903384a07b73f10805bd74aa31c824cccb913ab935308f14486b843289d79d0b966c2a", "ml3.bf055818ca4319ef7796dcbb48bd7fb335fa210fa7657990f14ed9d39e55eb17cbdf9a298aee356bfc1e5aaf46a424c829cecb913ab968049a011e77ca32"], Et = "https://cdn.jsdelivr.net/gh/skidding-code/arctic-wisps@main/motd.txt".trim(), Ct = "https://cdn.jsdelivr.net/gh/skidding-code/korona-games@2ff96c3efd47ed5ef10d83f6e606e8e32a59f997".trim().replace(/\/+$/, "");
 function bt(e) { return e.trim().replace(/\/+$/, ""); }
-const yt = ["https://cdn.jsdelivr.net/gh/sealiee11/arctic-static@2189fc4fcb0265c857e9cb3663c3815155665895", "https://testingcf.jsdelivr.net/gh/sealiee11/arctic-static@2189fc4fcb0265c857e9cb3663c3815155665895", "https://gcore.jsdelivr.net/gh/sealiee11/arctic-static@2189fc4fcb0265c857e9cb3663c3815155665895", "https://cdn.statically.io/gh/sealiee11/arctic-static@2189fc4fcb0265c857e9cb3663c3815155665895", "https://esm.sh/gh/sealiee11/arctic-static@2189fc4fcb0265c857e9cb3663c3815155665895"].map(bt).filter((e, t, n) => "" !== e && n.indexOf(e) === t), Bt = yt.length > 0, Qt = ["https://xen0nkidd-auth.onrender.com"].map(bt).filter((e, t, n) => "" !== e && n.indexOf(e) === t);
+const yt = ["https://cdn.jsdelivr.net/gh/sealiee11/arctic-static@2189fc4fcb0265c857e9cb3663c3815155665895", "https://testingcf.jsdelivr.net/gh/sealiee11/arctic-static@2189fc4fcb0265c857e9cb3663c3815155665895", "https://gcore.jsdelivr.net/gh/sealiee11/arctic-static@2189fc4fcb0265c857e9cb3663c3815155665895", "https://cdn.statically.io/gh/sealiee11/arctic-static@2189fc4fcb0265c857e9cb3663c3815155665895", "https://xen0nkidd.github.io/wisp.txt"].map(bt).filter((e, t, n) => "" !== e && n.indexOf(e) === t), Bt = yt.length > 0, Qt = ["https://xen0nkidd-auth.onrender.com"].map(bt).filter((e, t, n) => "" !== e && n.indexOf(e) === t);
 function kt(e, t) { try {
     const n = "undefined" != typeof document ? document.baseURI : "https://localhost/", r = new URL(e, t ?? n);
-    return "esm.sh" !== r.hostname || r.searchParams.has("raw") || (r.search = "" === r.search ? "raw" : `${r.search.slice(1)}&raw`), r.href;
+    return "https://xen0nkidd.github.io/wisp.txt" !== r.hostname || r.searchParams.has("raw") || (r.search = "" === r.search ? "raw" : `${r.search.slice(1)}&raw`), r.href;
 }
 catch {
     return e;
@@ -1231,7 +1231,7 @@ class ni {
         return; this.wispUrl = e, await async function () { return null !== Vo || (Vo = (async () => { for (const e of Fo)
         await Zo(e); !qo && function () { try {
         const e = new URL(document.baseURI).hostname;
-        return "esm.sh" === e || e.endsWith(".esm.sh");
+        return "https://xen0nkidd.github.io/wisp.txt" === e || e.endsWith(".https://xen0nkidd.github.io/wisp.txt");
     }
     catch {
         return !1;
